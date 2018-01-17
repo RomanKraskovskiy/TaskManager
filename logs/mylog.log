@@ -18,3 +18,169 @@ Caused by: java.io.FileNotFoundException: tasks.txt (Не удается най�
 	at java.io.FileInputStream.<init>(FileInputStream.java:138)
 	at com.kraskovskiy.roman.model.TaskIO.readBinary(TaskIO.java:95)
 	... 1 more
+2018-01-16 23:21:48 FATAL Controller:35 - Timer already cancelled.
+java.lang.IllegalStateException: Timer already cancelled.
+	at java.util.Timer.sched(Timer.java:397)
+	at java.util.Timer.schedule(Timer.java:287)
+	at com.kraskovskiy.roman.model.Task.startTimerRep(Task.java:24)
+	at com.kraskovskiy.roman.model.Task.setActive(Task.java:138)
+	at com.kraskovskiy.roman.controller.Controller.changeActive(Controller.java:109)
+	at com.kraskovskiy.roman.controller.Controller.menu(Controller.java:82)
+	at com.kraskovskiy.roman.Main.main(Main.java:28)
+2018-01-16 23:52:43 FATAL Controller:35 - Timer already cancelled.
+java.lang.IllegalStateException: Timer already cancelled.
+	at java.util.Timer.sched(Timer.java:397)
+	at java.util.Timer.schedule(Timer.java:287)
+	at com.kraskovskiy.roman.model.Task.startTimerRep(Task.java:24)
+	at com.kraskovskiy.roman.model.Task.setActive(Task.java:138)
+	at com.kraskovskiy.roman.controller.Controller.changeActive(Controller.java:109)
+	at com.kraskovskiy.roman.controller.Controller.menu(Controller.java:82)
+	at com.kraskovskiy.roman.Main.main(Main.java:28)
+2018-01-16 23:54:05 FATAL Controller:35 - Timer already cancelled.
+java.lang.IllegalStateException: Timer already cancelled.
+	at java.util.Timer.sched(Timer.java:397)
+	at java.util.Timer.schedule(Timer.java:287)
+	at com.kraskovskiy.roman.model.Task.startTimerRep(Task.java:24)
+	at com.kraskovskiy.roman.model.Task.setActive(Task.java:138)
+	at com.kraskovskiy.roman.controller.Controller.changeActive(Controller.java:109)
+	at com.kraskovskiy.roman.controller.Controller.menu(Controller.java:82)
+	at com.kraskovskiy.roman.Main.main(Main.java:28)
+2018-01-16 23:56:37 FATAL Controller:35 - Timer already cancelled.
+java.lang.IllegalStateException: Timer already cancelled.
+	at java.util.Timer.sched(Timer.java:397)
+	at java.util.Timer.schedule(Timer.java:287)
+	at com.kraskovskiy.roman.model.Task.startTimerRep(Task.java:24)
+	at com.kraskovskiy.roman.model.Task.setActive(Task.java:138)
+	at com.kraskovskiy.roman.controller.Controller.changeActive(Controller.java:109)
+	at com.kraskovskiy.roman.controller.Controller.menu(Controller.java:82)
+	at com.kraskovskiy.roman.Main.main(Main.java:28)
+2018-01-17 00:05:03 FATAL Controller:35 - Timer already cancelled.
+java.lang.IllegalStateException: Timer already cancelled.
+	at java.util.Timer.sched(Timer.java:397)
+	at java.util.Timer.schedule(Timer.java:287)
+	at com.kraskovskiy.roman.model.Task.startTimerRep(Task.java:26)
+	at com.kraskovskiy.roman.model.Task.setActive(Task.java:140)
+	at com.kraskovskiy.roman.controller.Controller.changeActive(Controller.java:109)
+	at com.kraskovskiy.roman.controller.Controller.menu(Controller.java:82)
+	at com.kraskovskiy.roman.Main.main(Main.java:28)
+2018-01-17 00:10:34 INFO  Controller:162 - USER: java.util.InputMismatchException | no correct format, only "true" or "false"
+2018-01-17 00:11:02 FATAL Controller:35 - Timer already cancelled.
+java.lang.IllegalStateException: Timer already cancelled.
+	at java.util.Timer.sched(Timer.java:397)
+	at java.util.Timer.schedule(Timer.java:287)
+	at com.kraskovskiy.roman.model.Task.startTimerRep(Task.java:27)
+	at com.kraskovskiy.roman.model.Task.setActive(Task.java:142)
+	at com.kraskovskiy.roman.controller.Controller.changeActive(Controller.java:109)
+	at com.kraskovskiy.roman.controller.Controller.menu(Controller.java:82)
+	at com.kraskovskiy.roman.Main.main(Main.java:28)
+2018-01-17 00:11:10 FATAL Controller:35 - Timer already cancelled.
+java.lang.IllegalStateException: Timer already cancelled.
+	at java.util.Timer.sched(Timer.java:397)
+	at java.util.Timer.schedule(Timer.java:287)
+	at com.kraskovskiy.roman.model.Task.startTimerRep(Task.java:27)
+	at com.kraskovskiy.roman.model.Task.setActive(Task.java:142)
+	at com.kraskovskiy.roman.controller.Controller.changeActive(Controller.java:109)
+	at com.kraskovskiy.roman.controller.Controller.menu(Controller.java:82)
+	at com.kraskovskiy.roman.Main.main(Main.java:28)
+2018-01-17 00:13:25 INFO  Controller:135 - USER: java.text.ParseException: Unparseable date: "[2018-01-00:14:00.000]" | no correct format for parse date
+2018-01-17 16:35:32 FATAL Controller:35 - Timer already cancelled.
+java.lang.IllegalStateException: Timer already cancelled.
+	at java.util.Timer.sched(Timer.java:397)
+	at java.util.Timer.schedule(Timer.java:208)
+	at com.kraskovskiy.roman.model.Task.startTimer(Task.java:27)
+	at com.kraskovskiy.roman.model.Task.setActive(Task.java:35)
+	at com.kraskovskiy.roman.controller.Controller.changeActive(Controller.java:109)
+	at com.kraskovskiy.roman.controller.Controller.menu(Controller.java:82)
+	at com.kraskovskiy.roman.Main.main(Main.java:28)
+2018-01-17 16:36:46 FATAL Controller:35 - Timer already cancelled.
+java.lang.IllegalStateException: Timer already cancelled.
+	at java.util.Timer.sched(Timer.java:397)
+	at java.util.Timer.schedule(Timer.java:208)
+	at com.kraskovskiy.roman.model.Task.startTimer(Task.java:27)
+	at com.kraskovskiy.roman.model.Task.setActive(Task.java:35)
+	at com.kraskovskiy.roman.controller.Controller.changeActive(Controller.java:109)
+	at com.kraskovskiy.roman.controller.Controller.menu(Controller.java:82)
+	at com.kraskovskiy.roman.Main.main(Main.java:28)
+2018-01-17 16:38:50 INFO  Controller:37 - USER: java.util.InputMismatchException | no correct format, it must be number
+2018-01-17 16:46:25 FATAL Controller:35 - Task already scheduled or cancelled
+java.lang.IllegalStateException: Task already scheduled or cancelled
+	at java.util.Timer.sched(Timer.java:401)
+	at java.util.Timer.schedule(Timer.java:287)
+	at com.kraskovskiy.roman.model.Task.startTimer(Task.java:26)
+	at com.kraskovskiy.roman.model.Task.setActive(Task.java:34)
+	at com.kraskovskiy.roman.controller.Controller.changeActive(Controller.java:109)
+	at com.kraskovskiy.roman.controller.Controller.menu(Controller.java:82)
+	at com.kraskovskiy.roman.Main.main(Main.java:28)
+2018-01-17 16:49:21 FATAL Controller:35 - Task already scheduled or cancelled
+java.lang.IllegalStateException: Task already scheduled or cancelled
+	at java.util.Timer.sched(Timer.java:401)
+	at java.util.Timer.schedule(Timer.java:287)
+	at com.kraskovskiy.roman.model.Task.startTimer(Task.java:27)
+	at com.kraskovskiy.roman.model.Task.setActive(Task.java:35)
+	at com.kraskovskiy.roman.controller.Controller.changeActive(Controller.java:109)
+	at com.kraskovskiy.roman.controller.Controller.menu(Controller.java:82)
+	at com.kraskovskiy.roman.Main.main(Main.java:28)
+2018-01-17 16:54:31 FATAL Controller:35 - Task already scheduled or cancelled
+java.lang.IllegalStateException: Task already scheduled or cancelled
+	at java.util.Timer.sched(Timer.java:401)
+	at java.util.Timer.schedule(Timer.java:287)
+	at com.kraskovskiy.roman.model.Task.startTimer(Task.java:27)
+	at com.kraskovskiy.roman.model.Task.setActive(Task.java:35)
+	at com.kraskovskiy.roman.controller.Controller.changeActive(Controller.java:109)
+	at com.kraskovskiy.roman.controller.Controller.menu(Controller.java:82)
+	at com.kraskovskiy.roman.Main.main(Main.java:28)
+2018-01-17 16:54:38 FATAL Controller:35 - Task already scheduled or cancelled
+java.lang.IllegalStateException: Task already scheduled or cancelled
+	at java.util.Timer.sched(Timer.java:401)
+	at java.util.Timer.schedule(Timer.java:287)
+	at com.kraskovskiy.roman.model.Task.startTimer(Task.java:27)
+	at com.kraskovskiy.roman.model.Task.setActive(Task.java:35)
+	at com.kraskovskiy.roman.controller.Controller.changeActive(Controller.java:109)
+	at com.kraskovskiy.roman.controller.Controller.menu(Controller.java:82)
+	at com.kraskovskiy.roman.Main.main(Main.java:28)
+2018-01-17 17:03:47 FATAL Controller:35 - Task already scheduled or cancelled
+java.lang.IllegalStateException: Task already scheduled or cancelled
+	at java.util.Timer.sched(Timer.java:401)
+	at java.util.Timer.schedule(Timer.java:287)
+	at com.kraskovskiy.roman.model.Task.startTimer(Task.java:28)
+	at com.kraskovskiy.roman.model.Task.setActive(Task.java:36)
+	at com.kraskovskiy.roman.controller.Controller.changeActive(Controller.java:109)
+	at com.kraskovskiy.roman.controller.Controller.menu(Controller.java:82)
+	at com.kraskovskiy.roman.Main.main(Main.java:28)
+2018-01-17 17:04:42 FATAL Controller:35 - Task already scheduled or cancelled
+java.lang.IllegalStateException: Task already scheduled or cancelled
+	at java.util.Timer.sched(Timer.java:401)
+	at java.util.Timer.schedule(Timer.java:287)
+	at com.kraskovskiy.roman.model.Task.startTimer(Task.java:27)
+	at com.kraskovskiy.roman.model.Task.setActive(Task.java:36)
+	at com.kraskovskiy.roman.controller.Controller.changeActive(Controller.java:109)
+	at com.kraskovskiy.roman.controller.Controller.menu(Controller.java:82)
+	at com.kraskovskiy.roman.Main.main(Main.java:28)
+2018-01-17 17:05:05 FATAL Controller:35 - Task already scheduled or cancelled
+java.lang.IllegalStateException: Task already scheduled or cancelled
+	at java.util.Timer.sched(Timer.java:401)
+	at java.util.Timer.schedule(Timer.java:287)
+	at com.kraskovskiy.roman.model.Task.startTimer(Task.java:27)
+	at com.kraskovskiy.roman.model.Task.setActive(Task.java:36)
+	at com.kraskovskiy.roman.controller.Controller.changeActive(Controller.java:109)
+	at com.kraskovskiy.roman.controller.Controller.menu(Controller.java:82)
+	at com.kraskovskiy.roman.Main.main(Main.java:28)
+2018-01-17 17:06:48 FATAL Controller:35 - Task already scheduled or cancelled
+java.lang.IllegalStateException: Task already scheduled or cancelled
+	at java.util.Timer.sched(Timer.java:401)
+	at java.util.Timer.schedule(Timer.java:287)
+	at com.kraskovskiy.roman.model.Task.startTimer(Task.java:29)
+	at com.kraskovskiy.roman.model.Task.setActive(Task.java:39)
+	at com.kraskovskiy.roman.controller.Controller.changeActive(Controller.java:109)
+	at com.kraskovskiy.roman.controller.Controller.menu(Controller.java:82)
+	at com.kraskovskiy.roman.Main.main(Main.java:28)
+2018-01-17 17:34:20 FATAL Controller:35 - Task already scheduled or cancelled
+java.lang.IllegalStateException: Task already scheduled or cancelled
+	at java.util.Timer.sched(Timer.java:401)
+	at java.util.Timer.schedule(Timer.java:287)
+	at com.kraskovskiy.roman.model.Task.startTimer(Task.java:29)
+	at com.kraskovskiy.roman.model.Task.setActive(Task.java:39)
+	at com.kraskovskiy.roman.controller.Controller.changeActive(Controller.java:109)
+	at com.kraskovskiy.roman.controller.Controller.menu(Controller.java:82)
+	at com.kraskovskiy.roman.Main.main(Main.java:28)
+2018-01-17 18:07:57 INFO  Controller:55 - USER: java.text.ParseException: Unparseable date: "das" | no correct format for parse date

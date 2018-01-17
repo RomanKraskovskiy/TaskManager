@@ -38,7 +38,7 @@ public class TaskIO {
         }
     }
     
-    public static void read(TaskList tasks, InputStream out) throws IOException, TaskInputException, TaskException {
+    public static void read(TaskList tasks, InputStream out) throws IOException, TaskInputException, TaskException, CloneNotSupportedException {
         try {
             DataInputStream dataOut = new DataInputStream(out);
             try {
@@ -51,10 +51,12 @@ public class TaskIO {
                         mass[j] = (char)dataOut.read();
                     }
                     t.setTitle(new String(mass));
+                    boolean acTive;
                     if (dataOut.read() == 1) {
-                        t.setActive(true);
+                        acTive = true;
                     } else {
-                        t.setActive(false);
+                        acTive = false;
+                        //t.setActive(false);
                     }
                     int inter = dataOut.readInt();
                     if (inter != 0) {
@@ -62,6 +64,7 @@ public class TaskIO {
                     } else {
                         t.setTime(new Date(dataOut.readLong()));
                     }
+                    t.setActive(acTive);
                     tasks.add(t);
                 }
             }finally {
@@ -90,7 +93,7 @@ public class TaskIO {
         }
     }
     
-    public static void readBinary(TaskList tasks, File file) throws IOException, TaskInputException, TaskException {
+    public static void readBinary(TaskList tasks, File file) throws IOException, TaskInputException, TaskException, CloneNotSupportedException {
         try {
             InputStream outFile = new FileInputStream(file);
             try {
@@ -128,7 +131,7 @@ public class TaskIO {
         }
     }
     
-    public static void read(TaskList tasks, Reader in) throws IOException, ParseException, TaskInputException, TaskException {
+    public static void read(TaskList tasks, Reader in) throws IOException, ParseException, TaskInputException, TaskException, CloneNotSupportedException {
         SimpleDateFormat a = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
         Date date;
         try {
@@ -260,7 +263,7 @@ public class TaskIO {
         }
     }
     
-    public static void readText(TaskList tasks, File file) throws IOException, ParseException, TaskInputException, TaskException {
+    public static void readText(TaskList tasks, File file) throws IOException, ParseException, TaskInputException, TaskException, CloneNotSupportedException {
         try {
             Reader rd = new FileReader(file);
             try {

@@ -3,8 +3,10 @@ package com.kraskovskiy.roman.model;
 import java.util.Date;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class Task implements Cloneable, Serializable {
+public class Task extends TimerTask implements Cloneable, Serializable {
     private String title;
     private Date time;
     private Date start;
@@ -12,15 +14,51 @@ public class Task implements Cloneable, Serializable {
     private int interval;
     private boolean active;
     private boolean repeated;
+    private Timer timer;
+    private Task taskRun;
 
-    /*@Override
+    public void setTaskRun(Task taskRun) {
+        this.taskRun = taskRun;
+    }
+
+    public Task getTaskRun() {
+        return taskRun;
+    }
+
+    @Override
     public void run() {
-        while (true){
-        Date cur = new Date();
-        if(cur.equals(this.nextTimeAfter(cur))) {
-            System.out.println("TIME FOR " + title);
-        }}
-    }*/
+        System.out.println("What time is now? TIME FOR " + title);
+        if(nextTimeAfter(new Date()) == null) {
+            try {
+                getTaskRun().setActive(false);
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void startTimer() throws CloneNotSupportedException {
+        if(nextTimeAfter(new Date()) != null) {
+            timer = new Timer();
+            Task task = this.clone();
+            task.setTaskRun(this);
+            if(isRepeated()) {
+                timer.schedule(task, nextTimeAfter(new Date()), interval * 1000);
+            } else {
+                timer.schedule(task, nextTimeAfter(new Date()));
+            }
+        } else {
+            setActive(false);
+        }
+    }
+
+    public void setActive(boolean active) throws CloneNotSupportedException {
+        this.active = active;
+        if(active) startTimer(); else if(timer != null) {
+            timer.cancel();
+        }
+    }
+
     @Override
     public Task clone() throws CloneNotSupportedException {
         return (Task)super.clone();
@@ -121,9 +159,7 @@ public class Task implements Cloneable, Serializable {
         return active;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+
     //end
 
     //metodi dlya schitovaniya i stanovleniya vremeni zadach BEZ povtoreniy

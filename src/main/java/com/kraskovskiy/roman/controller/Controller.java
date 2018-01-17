@@ -105,7 +105,7 @@ public class Controller {
         }
     }
 
-    public  void changeActive(int taskNumb) {
+    public  void changeActive(int taskNumb) throws CloneNotSupportedException {
         taskList.getTask(taskNumb).setActive(!taskList.getTask(taskNumb).isActive());
     }
 
@@ -146,7 +146,7 @@ public class Controller {
     }
 
 
-    public void setTask() throws ParseException, TaskException {
+    public void setTask() throws ParseException, TaskException, CloneNotSupportedException {
         boolean rep;
         Scanner scanner = new Scanner(System.in);
         SimpleDateFormat sdf = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
