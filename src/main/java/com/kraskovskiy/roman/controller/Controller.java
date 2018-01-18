@@ -48,7 +48,8 @@ public class Controller {
                     s = sdf.parse(scanner.nextLine());
                     System.out.println("Enter end date in format \"[yyyy-MM-dd HH:mm:ss.SSS]\":");
                     e = sdf.parse(scanner.nextLine());
-                    SortedMap<Date, Set<Task>> sortedMap = Tasks.calendar(taskList, s, e);
+                    TaskList tsForCalendar = taskList.clone();
+                    SortedMap<Date, Set<Task>> sortedMap = Tasks.calendar(tsForCalendar, s, e);
                     view.showFromToTasks(sortedMap);
                 } catch (ParseException e) {
                     System.out.println("no correct format");

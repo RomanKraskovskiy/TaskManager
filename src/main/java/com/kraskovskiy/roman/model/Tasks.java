@@ -3,9 +3,8 @@ package com.kraskovskiy.roman.model;
 import java.util.*;
 
 public class Tasks {
-    public static Iterable incoming(TaskList tasks,Date from, Date to) throws CloneNotSupportedException {
-        Iterable tasks1 = tasks.clone();
-        Iterator itr = tasks1.iterator();
+    public static Iterable incoming(Iterable tasks,Date from, Date to) throws CloneNotSupportedException {
+        Iterator itr = tasks.iterator();
         while(itr.hasNext()) {
             Task t = (Task)itr.next();
             if(t.nextTimeAfter(from) == null ||
@@ -16,8 +15,8 @@ public class Tasks {
         return tasks;
     }
 
-    public static SortedMap<Date, Set<Task>> calendar(TaskList tasks, Date start, Date end) throws CloneNotSupportedException {
-        tasks = (TaskList) incoming(tasks,start,end);
+    public static SortedMap<Date, Set<Task>> calendar(Iterable tasks, Date start, Date end) throws CloneNotSupportedException {
+        tasks = incoming(tasks,start,end);
         SortedMap<Date, Set<Task>> sortedMap = new TreeMap<Date, Set<Task>>();
         Iterator itr = tasks.iterator();
         while(itr.hasNext()) {
