@@ -40,6 +40,7 @@ public class View {
         System.out.println("2) Change title");
         System.out.println("3) Change time");
         System.out.println("4) Change inactive/noactive");
-        System.out.println("5) Back to menu");
+        System.out.println("5) Change repeated/norepeated");
+        System.out.println("6) Back to menu");
     }
 }

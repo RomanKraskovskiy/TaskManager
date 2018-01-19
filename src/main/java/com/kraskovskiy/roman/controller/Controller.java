@@ -83,6 +83,10 @@ public class Controller {
                                 changeActive(taskNumb);
                                 break;
                             case 5:
+                                changeRepeat(taskNumb);
+                                changeTime(taskNumb);
+                                break;
+                            case 6:
                                 m = false;
                                 break;
                         }
@@ -108,6 +112,10 @@ public class Controller {
 
     public  void changeActive(int taskNumb) throws CloneNotSupportedException {
         taskList.getTask(taskNumb).setActive(!taskList.getTask(taskNumb).isActive());
+    }
+
+    public  void changeRepeat(int taskNumb) throws CloneNotSupportedException {
+        taskList.getTask(taskNumb).setRepeated(!taskList.getTask(taskNumb).isRepeated());
     }
 
     public void changeTime(int taskNumb) throws ParseException, TaskException {

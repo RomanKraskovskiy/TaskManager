@@ -184,3 +184,4 @@ java.lang.IllegalStateException: Task already scheduled or cancelled
 	at com.kraskovskiy.roman.controller.Controller.menu(Controller.java:82)
 	at com.kraskovskiy.roman.Main.main(Main.java:28)
 2018-01-17 18:07:57 INFO  Controller:55 - USER: java.text.ParseException: Unparseable date: "das" | no correct format for parse date
+2018-01-19 01:26:33 INFO  Controller:93 - USER: java.util.InputMismatchException | it must be number

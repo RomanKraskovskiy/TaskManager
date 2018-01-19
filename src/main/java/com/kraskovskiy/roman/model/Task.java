@@ -204,6 +204,10 @@ public class Task extends TimerTask implements Cloneable, Serializable {
     }
     //end
 
+    public void setRepeated(boolean repeated) {
+        this.repeated = repeated;
+    }
+
     //metod dlya vozrasheniya vremeni sled vipolneniya zadachi
     /**
      *@return return value of time for next repeat
