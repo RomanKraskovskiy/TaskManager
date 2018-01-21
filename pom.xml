@@ -17,6 +17,13 @@
                     <include>log4j.properties</include>
                 </includes>
             </resource>
+            <resource>
+                <directory>.</directory>
+                <targetPath>${project.build.directory}</targetPath>
+                <includes>
+                    <include>tasks.txt</include>
+                </includes>
+            </resource>
         </resources>
         <plugins>
 
