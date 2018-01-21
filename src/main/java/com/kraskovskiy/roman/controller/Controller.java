@@ -10,21 +10,42 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * controller of mvc
+ * @author Roman Kraskovskiy
+ */
 public class Controller {
     private TaskList taskList;
     private View view;
 
     public final static Logger logger = Logger.getLogger(Controller.class);
 
+    /**
+     * constructor
+     * @param taskList model of mvc
+     * @param view view of mvc
+     */
     public Controller(TaskList taskList, View view) {
         this.taskList = taskList;
         this.view = view;
     }
 
+    /**
+     * control of viewing of all tasks
+     * @throws ParseException
+     */
     public void updateView() throws ParseException {
         view.showAllTask(taskList);
     }
 
+    /**
+     * control all program processes
+     * @throws ParseException
+     * @throws CloneNotSupportedException
+     * @throws IOException
+     * @throws TaskOutputException
+     * @throws TaskException
+     */
     public void menu() throws ParseException, CloneNotSupportedException, IOException, TaskOutputException, TaskException {
         int choosed;
         updateView();
@@ -110,14 +131,30 @@ public class Controller {
         }
     }
 
+    /**
+     * change Active of choosed task
+     * @param taskNumb index of task
+     * @throws CloneNotSupportedException
+     */
     public  void changeActive(int taskNumb) throws CloneNotSupportedException {
         taskList.getTask(taskNumb).setActive(!taskList.getTask(taskNumb).isActive());
     }
 
+    /**
+     * change Repeated of choosed task
+     * @param taskNumb index of task
+     * @throws CloneNotSupportedException
+     */
     public  void changeRepeat(int taskNumb) throws CloneNotSupportedException {
         taskList.getTask(taskNumb).setRepeated(!taskList.getTask(taskNumb).isRepeated());
     }
 
+    /**
+     * change Time of choosed task
+     * @param taskNumb index of task
+     * @throws ParseException
+     * @throws TaskException
+     */
     public void changeTime(int taskNumb) throws ParseException, TaskException {
         Scanner scanner = new Scanner(System.in);
         try {
@@ -145,16 +182,29 @@ public class Controller {
         }
     }
 
+    /**
+     * change Title of choosed task
+     * @param taskNumb index of task
+     */
     public void changeTitle(int taskNumb) {
         System.out.println("Enter new title:");
         taskList.getTask(taskNumb).setTitle(new Scanner(System.in).next());
     }
 
+    /**
+     * remove choosed task
+     * @param taskNumb index of task
+     */
     public void removeTask(int taskNumb) {
         taskList.remove(taskList.getTask(taskNumb));
     }
 
-
+    /**
+     * add new Task in model(tasklist)
+     * @throws ParseException
+     * @throws TaskException
+     * @throws CloneNotSupportedException
+     */
     public void setTask() throws ParseException, TaskException, CloneNotSupportedException {
         boolean rep;
         Scanner scanner = new Scanner(System.in);

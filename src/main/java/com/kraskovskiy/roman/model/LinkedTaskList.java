@@ -2,17 +2,31 @@ package com.kraskovskiy.roman.model;
 
 import java.util.Iterator;
 
+/**
+ * linkedlist for tasks
+ * @author Roman Kraskovskiy
+ */
 public class LinkedTaskList extends TaskList {
     private Node first;
     private Node last;
-    
+
+    /**
+     * @return new Iterator
+     */
     public Iterator iterator() {
         return new LinkedTaskListIterator();
     }
-    
+
+    /**
+     * inner class for iterator
+     */
     class LinkedTaskListIterator implements Iterator {
         int cursor;
         Node curNode;
+
+        /**
+         * @return next element
+         */
         public Task next() {
             if(cursor == 0) {
                 cursor++;
@@ -23,17 +37,30 @@ public class LinkedTaskList extends TaskList {
                 curNode = curNode.next;
                 return curNode.task;
             }
-        } 
+        }
+
+        /**
+         * @return true if next element exist
+         */
         public boolean hasNext() {
             return cursor != size;
         }
+
+        /**
+         * remove current element
+         */
         public void remove() {
             if(cursor == 0 || cursor >= size) throw new IllegalStateException();
             LinkedTaskList.this.remove(curNode.task);
             cursor--;
         }
     }
-    
+
+    /**
+     * test index for existence
+     * @param index index of element
+     * @throws ArrayIndexOutOfBoundsException
+     */
     private void testIndex(int index) throws ArrayIndexOutOfBoundsException {
         if (index >= size) {
             throw new ArrayIndexOutOfBoundsException();
@@ -46,6 +73,11 @@ public class LinkedTaskList extends TaskList {
         Task task;
         Node next;
         Node prev;
+
+        /**
+         * constructor
+         * @param task
+         */
         public Node(Task task) {
             this.task = task;
             if(size == 0){
@@ -133,7 +165,11 @@ public class LinkedTaskList extends TaskList {
             }
         return false;
     }
-    
+
+    /**
+     * method for display tasks in this list in readable format
+     * @return count of tasks
+     */
     public String toString() {
         LinkedTaskListIterator itr = (LinkedTaskListIterator)iterator();
         int i = 0;
@@ -144,7 +180,11 @@ public class LinkedTaskList extends TaskList {
         }
         return "Count of tasks: " + size;
     }
-    
+
+    /**
+     * @return new TaskList cloned from this
+     * @throws CloneNotSupportedException
+     */
     @Override
     public LinkedTaskList clone() throws CloneNotSupportedException {
         LinkedTaskList atl = (LinkedTaskList)super.clone();

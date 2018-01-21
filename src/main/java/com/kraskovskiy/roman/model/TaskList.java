@@ -3,16 +3,31 @@ package com.kraskovskiy.roman.model;
 import java.util.Date;
 import java.io.Serializable;
 
+/**
+ * abstract list for tasks
+ * model of mvc
+ * @author Roman Kraskovskiy
+ */
 public abstract class TaskList implements Iterable, Cloneable, Serializable {
     protected int size = 0;
     public abstract void add(Task task);
     public abstract boolean remove(Task task);
     public abstract Task getTask(int index);
-    
+
+    /**
+     * @return new TaskList cloned from this
+     * @throws CloneNotSupportedException
+     */
+    @Override
     public TaskList clone() throws CloneNotSupportedException  {
         return (TaskList)super.clone();
     }
-    
+
+    /**
+     * method for compare tasklists
+     * @param object tasklist that compare
+     * @return true,if equals; and false if not equals
+     */
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
@@ -29,7 +44,10 @@ public abstract class TaskList implements Iterable, Cloneable, Serializable {
         return true;      
         
     }
-    
+
+    /**
+     * @return hashcode of tasks
+     */
     public int hashCode() {
         int result = 0;
         for(int i = 0; i < size; i++) {
@@ -44,27 +62,15 @@ public abstract class TaskList implements Iterable, Cloneable, Serializable {
     public int size() {
         return size;
     }
-    
+
+    /**
+     * @param task task that are null testing
+     * @throws NullPointerException
+     */
     protected void nullTest(Task task) throws NullPointerException{
         if (task == null) {
             throw new NullPointerException();
         }
-    }
-    /**
-     * start and end of period
-     *@return tasks that was plan in this period
-     */
-    public TaskList incoming(Date from, Date to) throws InstantiationException
-        ,IllegalAccessException{
-        TaskList tasks = this.getClass().newInstance();
-        for(int i = 0; i < size; i++) {
-            if(getTask(i).nextTimeAfter(from) != null &&
-            getTask(i).nextTimeAfter(from).before(to)){
-                tasks.add(getTask(i));
-            }
-        }
-        
-        return tasks;
     }
     
 }

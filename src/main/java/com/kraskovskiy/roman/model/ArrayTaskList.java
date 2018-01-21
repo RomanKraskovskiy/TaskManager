@@ -4,21 +4,43 @@ import java.util.Iterator;
 
 import java.util.Arrays;
 
+/**
+ * arraylist for tasks
+ * @author Roman Kraskovskiy
+ */
 public class ArrayTaskList extends TaskList {
     private Task elementData[] = new Task[16];
-    
+
+    /**
+     * @return new Iterator
+     */
     public Iterator iterator() {
         return new ArrayTaskListIterator();
     }
-    
+
+    /**
+     * inner class for iterator
+     */
     class ArrayTaskListIterator implements Iterator {
         int cursor;
+
+        /**
+         * @return next element
+         */
         public Task next() {
             return elementData[cursor++];
         }
+
+        /**
+         * @return true if next element exist
+         */
         public boolean hasNext() {
             return cursor != size;
         }
+
+        /**
+         * remove current element
+         */
         public void remove(){
             if(cursor == 0 || cursor > size) throw new IllegalStateException();
             ArrayTaskList.this.remove(getTask(cursor-1));
@@ -71,6 +93,10 @@ public class ArrayTaskList extends TaskList {
         return elementData[index];
     }
 
+    /**
+     * method for display tasks in this list in readable format
+     * @return count of tasks
+     */
     @Override
     public String toString() {
         for(int i = 0; i < size; i++) {
@@ -79,7 +105,11 @@ public class ArrayTaskList extends TaskList {
         }
         return "Count of tasks: " + size;
     }
-    
+
+    /**
+     * @return new TaskList cloned from this
+     * @throws CloneNotSupportedException
+     */
     @Override
     public ArrayTaskList clone() throws CloneNotSupportedException {
         ArrayTaskList atl = (ArrayTaskList)super.clone();

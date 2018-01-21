@@ -6,6 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * task
+ * @author Roman Kraskovskiy
+ */
 public class Task extends TimerTask implements Cloneable, Serializable {
     private String title;
     private Date time;
@@ -17,14 +21,23 @@ public class Task extends TimerTask implements Cloneable, Serializable {
     private Timer timer;
     private Task taskRun;
 
+    /**
+     * @param taskRun set taskRun
+     */
     public void setTaskRun(Task taskRun) {
         this.taskRun = taskRun;
     }
 
+    /**
+     * @return value of taskRun
+     */
     public Task getTaskRun() {
         return taskRun;
     }
 
+    /**
+     * overriding run for Timer
+     */
     @Override
     public void run() {
         System.out.println("What time is now? TIME FOR " + title);
@@ -37,6 +50,10 @@ public class Task extends TimerTask implements Cloneable, Serializable {
         }
     }
 
+    /**
+     * method for starting Timer
+     * @throws CloneNotSupportedException
+     */
     public void startTimer() throws CloneNotSupportedException {
         if(nextTimeAfter(new Date()) != null) {
             timer = new Timer();
@@ -52,6 +69,10 @@ public class Task extends TimerTask implements Cloneable, Serializable {
         }
     }
 
+    /**
+     * @param active set value of active
+     * @throws CloneNotSupportedException
+     */
     public void setActive(boolean active) throws CloneNotSupportedException {
         this.active = active;
         if(active) startTimer(); else if(timer != null) {
@@ -59,11 +80,18 @@ public class Task extends TimerTask implements Cloneable, Serializable {
         }
     }
 
+    /**
+     * @return new Task cloned from this
+     * @throws CloneNotSupportedException
+     */
     @Override
     public Task clone() throws CloneNotSupportedException {
         return (Task)super.clone();
     }
-    
+
+    /**
+     * @return task in readable view
+     */
     @Override
     public String toString() {
         SimpleDateFormat a = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
@@ -83,7 +111,11 @@ public class Task extends TimerTask implements Cloneable, Serializable {
         }
         return "\"" + title.replace("\"", "\"\"") + "\"" + reap + a.format(start) + reapTrue + ac;
     }
-    
+
+    /**
+     * @param in is interval
+     * @return interval in readavle view
+     */
     private String intervatlToReadable(int in) {
         int inter = in;
         int [] sec = {86400, 3600, 60};
@@ -109,11 +141,21 @@ public class Task extends TimerTask implements Cloneable, Serializable {
         }
         s+= "]";
         return s;
-    } 
+    }
 
+    /**
+     * empty constructor
+     */
     public Task() {
     }
-    
+
+    /**
+     * testing right of time
+     * @param start start time
+     * @param end end time
+     * @param interval interval
+     * @throws TaskException if time is not right
+     */
     private void timeTest(Date start, Date end, int interval) throws TaskException {
         if (end.getTime() < start.getTime()) {
             throw new TaskException("end cannot be > start !!!");
@@ -121,8 +163,12 @@ public class Task extends TimerTask implements Cloneable, Serializable {
             throw new TaskException("interval must be > 0 !!!");
         }
     }
-    
-    //sozdaniye neaktivnoy zadachi BEZ povtoreniya
+
+    /**
+     * constructor for creating task without repeat
+     * @param title name of task
+     * @param time date of task
+     */
     public Task(String title, Date time) {
         this.title = title;
         this.time = time;
@@ -131,9 +177,15 @@ public class Task extends TimerTask implements Cloneable, Serializable {
         this.interval = 0;
         this.repeated = false;
     }
-    //end
-    
-    //sozdaniye neaktivnoy zadachi S povtoreniyem,s nachalom koncom i intrevalom
+
+    /**
+     * constructor for creating task with repeat
+     * @param title name of task
+     * @param start start time
+     * @param end end time
+     * @param interval interval
+     * @throws TaskException if time is not right
+     */
     public Task(String title, Date start, Date end, int interval) throws TaskException {
         timeTest(start,end,interval);
         this.title = title;
@@ -144,29 +196,38 @@ public class Task extends TimerTask implements Cloneable, Serializable {
         this.repeated = true;
 
     }
-    //end
 
-    //metodi dlya schitovaniya i stanovleniya: nazvaniya i sostoyaniya zadachi
+    /**
+     * @return title of task
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * @param title for setting title of task
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * @return active of task (true/false)
+     */
     public boolean isActive() {
         return active;
     }
 
-
-    //end
-
-    //metodi dlya schitovaniya i stanovleniya vremeni zadach BEZ povtoreniy
+    /**
+     * @return date of task
+     */
     public Date getTime() {
         return time;
     }
 
+    /**
+     * @param time for setting time of not repeat task
+     */
     public void setTime(Date time) {
         this.time = time;
         this.start = time;
@@ -174,21 +235,35 @@ public class Task extends TimerTask implements Cloneable, Serializable {
         this.repeated = false;
         this.interval = 0;
     }
-    //end
 
-    //metodi dlya schitovaniya i stanovleniya vremeni zadach S povtoreniyem
+    /**
+     * @return value of start time
+     */
     public Date getStartTime() {
         return start;
     }
 
+    /**
+     * @return valuse of end time
+     */
     public Date getEndTime() {
         return end;
     }
 
+    /**
+     * @return value of interval of repeat
+     */
     public int getRepeatInterval() {
         return interval;
     }
 
+    /**
+     * @param start for setting start time of task
+     * @param end for setting end time of task
+     * @param interval for setting interval of task
+     * repeat task
+     * @throws TaskException if time is not right
+     */
     public void setTime(Date start, Date end, int interval) throws TaskException {
         timeTest(start,end,interval);
         this.start = start;
@@ -198,20 +273,23 @@ public class Task extends TimerTask implements Cloneable, Serializable {
         this.repeated = true;
     }
 
-    //metod dlya proverki povtoryaimosti
+    /**
+     * @return repeat of task (true/false)
+     */
     public boolean isRepeated() {
         return repeated;
     }
-    //end
 
+    /**
+     * @param repeated for setting value of repeat of task
+     */
     public void setRepeated(boolean repeated) {
         this.repeated = repeated;
     }
 
-    //metod dlya vozrasheniya vremeni sled vipolneniya zadachi
     /**
-     *@return return value of time for next repeat
-     *if task is done and isn't repeat, return NULL
+     * @param current current time
+     * @return value of time for next repeat
      */
     public Date nextTimeAfter(Date current) {
         if (!repeated && active) {
@@ -239,9 +317,12 @@ public class Task extends TimerTask implements Cloneable, Serializable {
             return null;
         }
     }
-    //end
 
-
+    /**
+     * method for compare tasks
+     * @param object task that compare
+     * @return true,if equals; and false if not equals
+     */
     public boolean equals(Object object) {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
@@ -259,6 +340,9 @@ public class Task extends TimerTask implements Cloneable, Serializable {
         return true;
     }
 
+    /**
+     * @return hashcode of task
+     */
     public int hashCode() {
         int result = 0;
         result = 31 * result + title.hashCode();

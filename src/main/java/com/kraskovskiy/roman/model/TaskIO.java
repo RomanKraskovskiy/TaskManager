@@ -6,7 +6,18 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
+/**
+ * input/output
+ * @author Roman Kraskovskiy
+ */
 public class TaskIO {
+    /**
+     * write tasks in stream in binary format
+     * @param tasks tasks for writing
+     * @param out stream for writing
+     * @throws IOException
+     * @throws TaskOutputException
+     */
     public static void write(TaskList tasks, OutputStream out) throws IOException, TaskOutputException {
         Iterator itr = tasks.iterator();
         try {
@@ -37,7 +48,16 @@ public class TaskIO {
             throw new TaskOutputException(e.getMessage(),e);
         }
     }
-    
+
+    /**
+     * read tasks from stream in binary format
+     * @param tasks tasks for reading
+     * @param out stream for reading
+     * @throws IOException
+     * @throws TaskInputException
+     * @throws TaskException
+     * @throws CloneNotSupportedException
+     */
     public static void read(TaskList tasks, InputStream out) throws IOException, TaskInputException, TaskException, CloneNotSupportedException {
         try {
             DataInputStream dataOut = new DataInputStream(out);
@@ -76,7 +96,14 @@ public class TaskIO {
             throw new TaskInputException(e.getMessage(),e);
         }
     }
-    
+
+    /**
+     * write tasks in file in binary format
+     * @param tasks tasks for writing
+     * @param file file for writing
+     * @throws IOException
+     * @throws TaskOutputException
+     */
     public static void writeBinary(TaskList tasks, File file) throws IOException, TaskOutputException {
         try {
             OutputStream outFile = new FileOutputStream(file);
@@ -92,7 +119,16 @@ public class TaskIO {
             throw new TaskOutputException(e.getMessage(),e);
         }
     }
-    
+
+    /**
+     * read tasks from file in binary format
+     * @param tasks tasks for reading
+     * @param file file for reading
+     * @throws IOException
+     * @throws TaskInputException
+     * @throws TaskException
+     * @throws CloneNotSupportedException
+     */
     public static void readBinary(TaskList tasks, File file) throws IOException, TaskInputException, TaskException, CloneNotSupportedException {
         try {
             InputStream outFile = new FileInputStream(file);
@@ -110,7 +146,14 @@ public class TaskIO {
             throw new TaskInputException(e.getMessage(),e);
         }
     }
-    
+
+    /**
+     * write tasks in Writer in readable(text) format
+     * @param tasks tasks for writing
+     * @param out writer for writing
+     * @throws IOException
+     * @throws TaskOutputException
+     */
     public static void write(TaskList tasks, Writer out) throws IOException, TaskOutputException {
         Iterator itr = tasks.iterator();
         try {
@@ -130,7 +173,17 @@ public class TaskIO {
             out.close();
         }
     }
-    
+
+    /**
+     * read tasks from Reader in readable(text) format
+     * @param tasks tasks for reading
+     * @param in reader for reading
+     * @throws IOException
+     * @throws ParseException
+     * @throws TaskInputException
+     * @throws TaskException
+     * @throws CloneNotSupportedException
+     */
     public static void read(TaskList tasks, Reader in) throws IOException, ParseException, TaskInputException, TaskException, CloneNotSupportedException {
         SimpleDateFormat a = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
         Date date;
@@ -246,7 +299,14 @@ public class TaskIO {
             in.close();
         }
     }
-    
+
+    /**
+     * write tasks in file in readable(text) format
+     * @param tasks tasks for writing
+     * @param file file fot writing
+     * @throws IOException
+     * @throws TaskOutputException
+     */
     public static void writeText(TaskList tasks, File file) throws IOException, TaskOutputException {
         try {
             Writer wr = new FileWriter(file);
@@ -262,7 +322,17 @@ public class TaskIO {
             throw new TaskOutputException(e.getMessage(),e);
         }
     }
-    
+
+    /**
+     * read tasks from file in readable(text) format
+     * @param tasks tasks for reading
+     * @param file file for reading
+     * @throws IOException
+     * @throws ParseException
+     * @throws TaskInputException
+     * @throws TaskException
+     * @throws CloneNotSupportedException
+     */
     public static void readText(TaskList tasks, File file) throws IOException, ParseException, TaskInputException, TaskException, CloneNotSupportedException {
         try {
             Reader rd = new FileReader(file);

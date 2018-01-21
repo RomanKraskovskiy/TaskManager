@@ -8,8 +8,21 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 
+/**
+ * main class
+ * @author Roman Kraskovskiy
+ */
 public class Main {
-
+    /**
+     * main method
+     * @param args arguments
+     * @throws ParseException
+     * @throws CloneNotSupportedException
+     * @throws IOException
+     * @throws TaskInputException
+     * @throws TaskOutputException
+     * @throws TaskException
+     */
     public static void main(String[] args) throws ParseException, CloneNotSupportedException, IOException, TaskInputException, TaskOutputException, TaskException {
         TaskList ts = new ArrayTaskList();
         View viewTasks = new View();
