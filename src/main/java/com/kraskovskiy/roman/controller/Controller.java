@@ -188,7 +188,7 @@ public class Controller {
      */
     public void changeTitle(int taskNumb) {
         System.out.println("Enter new title:");
-        taskList.getTask(taskNumb).setTitle(new Scanner(System.in).next());
+        taskList.getTask(taskNumb).setTitle(new Scanner(System.in).nextLine());
     }
 
     /**
