@@ -26,6 +26,7 @@ public class Main {
     public static void main(String[] args) throws ParseException, CloneNotSupportedException, IOException, TaskInputException, TaskOutputException, TaskException {
         TaskList ts = new ArrayTaskList();
         View viewTasks = new View();
+        viewTasks.setVisible(true);
         Controller tasksContoller = new Controller(ts,viewTasks);
         try {
             TaskIO.readBinary(ts, new File("tasks.txt"));

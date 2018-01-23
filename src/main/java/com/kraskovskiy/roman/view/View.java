@@ -2,6 +2,9 @@ package com.kraskovskiy.roman.view;
 
 import com.kraskovskiy.roman.model.Task;
 import com.kraskovskiy.roman.model.TaskList;
+
+import javax.swing.*;
+import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -9,7 +12,22 @@ import java.util.*;
  * view of mvc
  * @author Roman Kraskovskiy
  */
-public class View {
+public class View extends JFrame {
+
+    private DefaultListModel allTasks = new DefaultListModel();
+    private JList taskList = new JList(allTasks);
+
+    public View() {
+        this.setTitle("Task Manager");
+        JPanel container = new JPanel();
+        this.setBounds(100,100,800,500);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        taskList.setSize(300,70);
+        JScrollPane jsp = new JScrollPane(taskList);
+        container.add(jsp);
+        this.add(container);
+
+    }
 
     /**
      * display all tasks on screen
@@ -18,6 +36,12 @@ public class View {
     public void showAllTask(TaskList tasks) {
         System.out.println("\nYour tasks:");
         System.out.println(tasks.toString());
+        Iterator itr = tasks.iterator();
+        while(itr.hasNext()) {
+            Task t = (Task) itr.next();
+            allTasks.addElement(t.toString());
+        }
+
     }
 
     /**
