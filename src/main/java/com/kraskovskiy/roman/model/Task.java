@@ -40,7 +40,7 @@ public class Task extends TimerTask implements Cloneable, Serializable {
      */
     @Override
     public void run() {
-        System.out.println("What time is now? TIME FOR " + title);
+        System.out.println("TIME FOR " + title);
         if(nextTimeAfter(new Date()) == null) {
             try {
                 getTaskRun().setActive(false);

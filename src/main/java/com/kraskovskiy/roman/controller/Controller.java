@@ -4,6 +4,11 @@ import com.kraskovskiy.roman.model.*;
 import com.kraskovskiy.roman.view.View;
 import org.apache.log4j.Logger;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -28,6 +33,14 @@ public class Controller {
     public Controller(TaskList taskList, View view) {
         this.taskList = taskList;
         this.view = view;
+        this.view.addButtonListener(new SetTaskListener());
+        this.view.addCheckRepeatedListener(new RepeatedCheckListener());
+        this.view.addTaskButtonListener(new AddTaskListener());
+        this.view.addCancelButtonListener(new CancelTaskListener());
+        this.view.addChangeAndViewListener(new ChangeTaskListener());
+        this.view.addExitButtonListener(new ExitButtonListener());
+        this.view.addCalendarButtonListener(new CalendarButtonListener());
+        this.view.addSetCalendarButtonListener(new SetCalendarListener());
     }
 
     /**
@@ -38,96 +51,143 @@ public class Controller {
         view.showAllTask(taskList);
     }
 
-    /**
-     * control all program processes
-     * @throws ParseException
-     * @throws CloneNotSupportedException
-     * @throws IOException
-     * @throws TaskOutputException
-     * @throws TaskException
-     */
-    public void menu() throws ParseException, CloneNotSupportedException, IOException, TaskOutputException, TaskException {
-        int choosed;
-        updateView();
-        view.showMenu();
-        Scanner scanner = new Scanner(System.in);
-        try {
-            choosed = scanner.nextInt();
-        } catch (InputMismatchException e) {
-            System.out.println("no correct format, it must be number");
-            logger.info("USER: " + e + " | no correct format, it must be number");
-            return;
-        }
-        switch (choosed) {
-            case 1:
-                try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
-                    Date s;
-                    Date e;
-                    System.out.println("Enter start date in format \"[yyyy-MM-dd HH:mm:ss.SSS]\":");
-                    scanner.nextLine();
-                    s = sdf.parse(scanner.nextLine());
-                    System.out.println("Enter end date in format \"[yyyy-MM-dd HH:mm:ss.SSS]\":");
-                    e = sdf.parse(scanner.nextLine());
-                    TaskList tsForCalendar = taskList.clone();
-                    SortedMap<Date, Set<Task>> sortedMap = Tasks.calendar(tsForCalendar, s, e);
-                    view.showFromToTasks(sortedMap);
-                } catch (ParseException e) {
-                    System.out.println("no correct format");
-                    logger.info("USER: " + e + " | no correct format for parse date");
-                }
-                break;
-            case 2:
-                setTask();
-                break;
-            case 3:
-                System.out.println("Enter number of task:");
-                try {
-                    int taskNumb = scanner.nextInt();
-                    int choosedCurTask;
-                    boolean m = true;
-                    while (m) {
-                        view.showChoosedTask(taskList, taskNumb);
-                        choosedCurTask = scanner.nextInt();
-                        switch (choosedCurTask) {
-                            case 1:
-                                removeTask(taskNumb);
-                                m = false;
-                                break;
-                            case 2:
-                                changeTitle(taskNumb);
-                                break;
-                            case 3:
-                                changeTime(taskNumb);
-                                break;
-                            case 4:
-                                changeActive(taskNumb);
-                                break;
-                            case 5:
-                                changeRepeat(taskNumb);
-                                changeTime(taskNumb);
-                                break;
-                            case 6:
-                                m = false;
-                                break;
-                        }
+    class SetCalendarListener implements ActionListener {
 
-                    }
-                }catch (InputMismatchException e) {
-                    System.out.println("it must be number");
-                    logger.info("USER: " + e + " | it must be number");
-                }catch (NullPointerException e) {
-                    System.out.println("index out of array");
-                    logger.info("USER: " + e + " | index out of array");
-                }catch (ArrayIndexOutOfBoundsException e) {
-                    System.out.println("index out of array");
-                    logger.info("USER: " + e + " | index out of array(null)");
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            SimpleDateFormat sdf = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
+            try {
+                Date st = sdf.parse(view.getStartDateFromField());
+                Date en = sdf.parse(view.getEndDateFromField());
+                if(st.getTime() > en.getTime()) {
+                    view.showErrorMessage("Start dane can no to be after end !!!");
                 }
-                break;
-            case 4:
-                TaskIO.writeBinary(taskList, new File("tasks.txt"));
-                System.exit(0);
-                break;
+                SortedMap sortedMap = Tasks.calendar(taskList,st,en);
+                view.showFromToTasks(sortedMap);
+            } catch (CloneNotSupportedException e1) {
+                logger.fatal(e1.getMessage(),e1);
+                view.showErrorMessage("Unknown error !!!");
+            } catch (ParseException e1) {
+                view.showErrorMessage("No correct format for date");
+                logger.info("USER: " + e + " | no correct format for parse interval");
+            }
+        }
+    }
+
+    class CalendarButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.createCalendarFrame();
+            view.addCloseWindowListener(new CloseWindowListener());
+        }
+    }
+
+    class CloseWindowListener implements WindowListener {
+        @Override
+        public void windowOpened(WindowEvent e) {
+
+        }
+
+        @Override
+        public void windowClosing(WindowEvent e) {
+            view.setEnabled(true);
+        }
+
+        @Override
+        public void windowClosed(WindowEvent e) {
+
+        }
+
+        @Override
+        public void windowIconified(WindowEvent e) {
+
+        }
+
+        @Override
+        public void windowDeiconified(WindowEvent e) {
+
+        }
+
+        @Override
+        public void windowActivated(WindowEvent e) {
+
+        }
+
+        @Override
+        public void windowDeactivated(WindowEvent e) {
+
+        }
+    }
+
+    class ExitButtonListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            try {
+                TaskIO.writeBinary(taskList,new File("tasks.txt"));
+            } catch (IOException e1) {
+                view.showErrorMessage("Changing don't save !!!");
+                logger.fatal(e1.getMessage(),e1);
+            } catch (TaskOutputException e1) {
+                view.showErrorMessage("Changing don't save !!!");
+                logger.fatal(e1.getMessage(),e1);
+            }
+
+            System.exit(0);
+        }
+    }
+    class SetTaskListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.createAddTaskFrame();
+            view.addCloseWindowListener(new CloseWindowListener());
+        }
+    }
+
+    class ChangeTaskListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.createChangeTaskFrame(taskList,0);
+            view.addCloseWindowListener(new CloseWindowListener());
+        }
+    }
+
+    class RepeatedCheckListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.setRepeatedCheck();
+        }
+    }
+
+    class AddTaskListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                setTask();
+            } catch (ParseException e1) {
+                e1.printStackTrace();
+            } catch (TaskException e1) {
+                e1.printStackTrace();
+            } catch (CloneNotSupportedException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    class CancelTaskListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.getAddTaskFrame().setVisible(false);
+            view.getAddTaskFrame().dispose();
+            view.setEnabled(true);
+            view.setVisible(true);
         }
     }
 
@@ -200,53 +260,47 @@ public class Controller {
     }
 
     /**
-     * add new Task in model(tasklist)
+     * add new Task
      * @throws ParseException
      * @throws TaskException
      * @throws CloneNotSupportedException
      */
     public void setTask() throws ParseException, TaskException, CloneNotSupportedException {
-        boolean rep;
-        Scanner scanner = new Scanner(System.in);
+        boolean rep = view.isRepeatedFromField();
         SimpleDateFormat sdf = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
         Task task = new Task();
-        System.out.println("New task:");
-        System.out.println("Enter title for task:");
-        task.setTitle(scanner.nextLine());
-        System.out.println("Repeated(true/false):");
-        try {
-            rep = scanner.nextBoolean();
-        } catch (InputMismatchException e) {
-            System.out.println("no correct format, only \"true\" or \"false\"");
-            logger.info("USER: " + e + " | no correct format, only \"true\" or \"false\"");
+        task.setTitle(view.getTitleFromField());
+        if (task.getTitle().equals("")) {
+            JOptionPane.showConfirmDialog(view.getAddTaskFrame(),"Title is empty !!!",
+                    "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
             return;
         }
         try {
             if (rep) {
-                Date s;
-                Date e;
-                int i;
-                System.out.println("Enter start date in format \"[yyyy-MM-dd HH:mm:ss.SSS]\":");
-                scanner.nextLine();
-                s = sdf.parse(scanner.nextLine());
-                System.out.println("Enter end date in format \"[yyyy-MM-dd HH:mm:ss.SSS]\":");
-                e = sdf.parse(scanner.nextLine());
-                System.out.println("Enter interval in seconds:");
-                i = scanner.nextInt();
-                task.setTime(s, e, i);
+                task.setTime(sdf.parse(view.getStartDateFromField()), sdf.parse(view.getEndDateFromField())
+                        , view.getIntervalFromField());
             } else {
-                Date d;
-                System.out.println("Enter date in format \"[yyyy-MM-dd HH:mm:ss.SSS]\":");
-                scanner.nextLine();
-                d = sdf.parse(scanner.nextLine());
-                task.setTime(d);
+                task.setTime(sdf.parse(view.getStartDateFromField()));
             }
-        }catch (ParseException e) {
-            System.out.println("no correct format");
+        } catch (ParseException e) {
+            view.showErrorMessage("No correct format for date!!!");
             logger.info("USER: " + e + " | no correct format for parse date");
+            return;
+        } catch (NumberFormatException e) {
+            view.showErrorMessage("No correct format for interval !!!");
+            logger.info("USER: " + e + " | no correct format for interval");
             return;
         }
         task.setActive(true);
         taskList.add(task);
+        view.showAllTask(taskList);
+        view.getAddTaskFrame().setVisible(false);
+        view.getAddTaskFrame().dispose();
+        view.setEnabled(true);
+        view.setVisible(true);
+    }
+
+    public void timeForTask(String s) {
+        view.showCurrentTask(s);
     }
 }

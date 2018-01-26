@@ -34,17 +34,10 @@ public class Main {
             System.out.println(e.getMessage());
             Controller.logger.error(e.getMessage(),e);
         }
-        for(;;) {
-            try {
-                tasksContoller.menu();
-            }catch (TaskException e) {
-                System.out.println(e.getMessage());
-            }catch (TaskOutputException e) {
-                System.out.println(e.getMessage());
-                Controller.logger.error(e.getMessage(),e);
-            }catch (Exception e) {
-                Controller.logger.fatal(e.getMessage(),e);
-            }
+        try {
+            tasksContoller.updateView();
+        } catch (Exception e) {
+            Controller.logger.fatal(e.getMessage(),e);
         }
     }
 }
