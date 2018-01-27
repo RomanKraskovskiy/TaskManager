@@ -151,7 +151,7 @@ public class Controller {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            view.createChangeTaskFrame(taskList,0);
+            view.createChangeTaskFrame(taskList,0); //view.getTaskIndex()
             view.addCloseWindowListener(new CloseWindowListener());
         }
     }
