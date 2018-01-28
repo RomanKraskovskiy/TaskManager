@@ -138,26 +138,6 @@ public class View extends JFrame {
         return Integer.parseInt(interval.getText());
     }
 
-   /* public void setTitleField(String title) {
-        titleDate.setText(title);
-    }
-
-    public void setStartDateField(String startDate) {
-        startTimeDate.setText(startDate);
-    }
-
-    public void setEndDateField(String endDate) {
-        endTimeDate.setText(endDate);
-    }
-
-    public void setIntervalField(int interval) {
-        this.interval.setText(Integer.toString(interval));
-    }
-
-    public void setActiveCheck(boolean active) {
-        activeCheck.setSelected(active);
-    }*/
-
     public JFrame getAddTaskFrame() {
         return addTaskFrame;
     }

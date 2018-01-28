@@ -1,5 +1,7 @@
 package com.kraskovskiy.roman.model;
 
+import com.kraskovskiy.roman.view.View;
+
 import java.util.Date;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -20,6 +22,15 @@ public class Task extends TimerTask implements Cloneable, Serializable {
     private boolean repeated;
     private Timer timer;
     private Task taskRun;
+    private View view;
+
+    public void setView(View view) {
+        this.view = view;
+    }
+
+    public View getView() {
+        return view;
+    }
 
     /**
      * @param taskRun set taskRun
@@ -40,7 +51,7 @@ public class Task extends TimerTask implements Cloneable, Serializable {
      */
     @Override
     public void run() {
-        System.out.println("TIME FOR " + title);
+        getTaskRun().getView().showCurrentTask("TIME FOR " + title);
         if(nextTimeAfter(new Date()) == null) {
             try {
                 getTaskRun().setActive(false);

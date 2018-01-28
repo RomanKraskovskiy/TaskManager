@@ -27,13 +27,14 @@ public class Main {
         TaskList ts = new ArrayTaskList();
         View viewTasks = new View();
         viewTasks.setVisible(true);
-        Controller tasksContoller = new Controller(ts,viewTasks);
+
         try {
             TaskIO.readBinary(ts, new File("tasks.txt"));
         }catch (TaskInputException e) {
             System.out.println(e.getMessage());
             Controller.logger.error(e.getMessage(),e);
         }
+        Controller tasksContoller = new Controller(ts,viewTasks);
         try {
             tasksContoller.updateView();
         } catch (Exception e) {

@@ -41,6 +41,11 @@ public class Controller {
         this.view.addExitButtonListener(new ExitButtonListener());
         this.view.addCalendarButtonListener(new CalendarButtonListener());
         this.view.addSetCalendarButtonListener(new SetCalendarListener());
+        Iterator itr = taskList.iterator();
+        while(itr.hasNext()) {
+            Task t = (Task) itr.next();
+            t.setView(view);
+        }
     }
 
     /**
@@ -292,15 +297,12 @@ public class Controller {
             return;
         }
         task.setActive(true);
+        task.setView(view);
         taskList.add(task);
         view.showAllTask(taskList);
         view.getAddTaskFrame().setVisible(false);
         view.getAddTaskFrame().dispose();
         view.setEnabled(true);
         view.setVisible(true);
-    }
-
-    public void timeForTask(String s) {
-        view.showCurrentTask(s);
     }
 }
