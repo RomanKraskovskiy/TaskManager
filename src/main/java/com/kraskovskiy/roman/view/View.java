@@ -41,11 +41,22 @@ public class View extends JFrame {
     private JLabel intervalLabel = new JLabel("Enter interval:");
     private JTextField interval = new JTextField();
 
+    private JButton removeTaskButton = new JButton("Remove");
     private JButton changeTaskButton = new JButton("Change");
     private JCheckBox activeCheck = new JCheckBox("Active");
 
     private JButton setCalendarButton = new JButton("Calendar");
     private JTextArea calendarArea = new JTextArea();
+
+    private int currenTaskIndex;
+
+    public int getCurrenTaskIndex() {
+        return currenTaskIndex;
+    }
+
+    public void setCurrenTaskIndex(int currenTaskIndex) {
+        this.currenTaskIndex = currenTaskIndex;
+    }
 
     public View() {
         this.setTitle("Task Manager");
@@ -69,12 +80,6 @@ public class View extends JFrame {
         exitButton.setBounds(450,185,300,50);
         container.add(exitButton);
         this.add(container);
-        taskList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                System.out.println(taskList.getSelectedIndex());
-            }
-        });
     }
 
     public void setRepeatedCheck() {
@@ -90,6 +95,7 @@ public class View extends JFrame {
     public void addCloseWindowListener(WindowListener wl) {
         addTaskFrame.addWindowListener(wl);
     }
+
     public void addButtonListener(ActionListener al) {
         addButton.addActionListener(al);
     }
@@ -122,6 +128,18 @@ public class View extends JFrame {
         setCalendarButton.addActionListener(al);
     }
 
+    public void addCurrentTaskIndexListener(ListSelectionListener lsl) {
+        taskList.addListSelectionListener(lsl);
+    }
+
+    public void addChangeButtonListener(ActionListener al) {
+        changeTaskButton.addActionListener(al);
+    }
+
+    public void addRemoveButtonListener(ActionListener al) {
+        removeTaskButton.addActionListener(al);
+    }
+
     public String getTitleFromField() {
         return titleDate.getText();
     }
@@ -146,9 +164,8 @@ public class View extends JFrame {
         return repeatedCheck.isSelected();
     }
 
-    public int getTaskIndex() {
-        System.out.println(taskList.getSelectedIndex());
-        return taskList.getSelectedIndex();
+    public boolean isActiveFromField () {
+        return activeCheck.isSelected();
     }
 
     /**
@@ -173,7 +190,7 @@ public class View extends JFrame {
         endTimeDate.setText("");
         interval.setText("");
         addTaskFrame = new JFrame("Add Task");
-        addTaskFrame.setBounds(200, 200, 300, 300);
+        addTaskFrame.setBounds(200, 200, 300, 320);
         addTaskFrame.setResizable(false);
         addTaskFrame.setVisible(true);
         addTaskPanel = new JPanel();
@@ -216,8 +233,13 @@ public class View extends JFrame {
         createFrame();
         activeCheck.setBounds(110, 90, 90, 20);
         addTaskPanel.add(activeCheck);
+        changeTaskButton.setBounds(40,210,100,40);
+        addTaskPanel.add(changeTaskButton);
+        removeTaskButton.setBounds(40,260,210,15);
+        addTaskPanel.add(removeTaskButton);
         SimpleDateFormat sdf = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
-        Task task = taskList.getTask(index);
+        Task task;
+        task = taskList.getTask(index);
         titleDate.setText(task.getTitle());
         startTimeDate.setText(sdf.format(task.getStartTime()));
         if(task.isActive()) {
@@ -289,15 +311,6 @@ public class View extends JFrame {
                 i++;
             }
         }
-    }
-
-    /**
-     * display information about choosed task
-     * @param tasks tasks
-     * @param index index of choosed task
-     */
-    public void showChoosedTask(TaskList tasks, int index) {
-
     }
 
     public void showErrorMessage(String s) {

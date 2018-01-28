@@ -5,6 +5,8 @@ import com.kraskovskiy.roman.view.View;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -41,6 +43,8 @@ public class Controller {
         this.view.addExitButtonListener(new ExitButtonListener());
         this.view.addCalendarButtonListener(new CalendarButtonListener());
         this.view.addSetCalendarButtonListener(new SetCalendarListener());
+        this.view.addCurrentTaskIndexListener(new GetIndexChoosedTask());
+        this.view.addChangeButtonListener(new ChangeTask());
         Iterator itr = taskList.iterator();
         while(itr.hasNext()) {
             Task t = (Task) itr.next();
@@ -54,6 +58,28 @@ public class Controller {
      */
     public void updateView() throws ParseException {
         view.showAllTask(taskList);
+    }
+
+    class ChangeTask implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                changeTask(view.getCurrenTaskIndex());
+            } catch (CloneNotSupportedException e1) {
+                view.showErrorMessage("");
+                logger.fatal("ERROR: " + e + " | " + e1.getMessage(),e1);
+            }
+        }
+    }
+
+    class GetIndexChoosedTask implements ListSelectionListener {
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            JList source = (JList)e.getSource();
+            view.setCurrenTaskIndex(source.getSelectedIndex());
+        }
     }
 
     class SetCalendarListener implements ActionListener {
@@ -156,7 +182,12 @@ public class Controller {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            view.createChangeTaskFrame(taskList,0); //view.getTaskIndex()
+            try {
+                view.createChangeTaskFrame(taskList, view.getCurrenTaskIndex()); //view.getTaskIndex()
+            }catch (ArrayIndexOutOfBoundsException e1) {
+                view.showErrorMessage("Please, chose task for first !");
+                closeFrame();
+            }
             view.addCloseWindowListener(new CloseWindowListener());
         }
     }
@@ -176,11 +207,14 @@ public class Controller {
             try {
                 setTask();
             } catch (ParseException e1) {
-                e1.printStackTrace();
+                view.showErrorMessage("No correct format for date");
+                logger.info("USER: " + e + " | no correct format for parse interval");
             } catch (TaskException e1) {
-                e1.printStackTrace();
+                view.showErrorMessage(e1.getMessage());
+                logger.info("USER: " + e + " | " + e1.getMessage());
             } catch (CloneNotSupportedException e1) {
-                e1.printStackTrace();
+                view.showErrorMessage("");
+                logger.fatal("ERROR: " + e + " | " + e1.getMessage(),e1);
             }
         }
     }
@@ -189,13 +223,16 @@ public class Controller {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            view.getAddTaskFrame().setVisible(false);
-            view.getAddTaskFrame().dispose();
-            view.setEnabled(true);
-            view.setVisible(true);
+            closeFrame();
         }
     }
 
+    public void closeFrame() {
+        view.getAddTaskFrame().setVisible(false);
+        view.getAddTaskFrame().dispose();
+        view.setEnabled(true);
+        view.setVisible(true);
+    }
     /**
      * change Active of choosed task
      * @param taskNumb index of task
@@ -299,6 +336,43 @@ public class Controller {
         task.setActive(true);
         task.setView(view);
         taskList.add(task);
+        view.showAllTask(taskList);
+        view.getAddTaskFrame().setVisible(false);
+        view.getAddTaskFrame().dispose();
+        view.setEnabled(true);
+        view.setVisible(true);
+    }
+
+    public void changeTask(int index) throws CloneNotSupportedException {
+        boolean rep = view.isRepeatedFromField();
+        SimpleDateFormat sdf = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
+        Task task = taskList.getTask(index);
+        task.setTitle(view.getTitleFromField());
+        if (task.getTitle().equals("")) {
+            JOptionPane.showConfirmDialog(view.getAddTaskFrame(),"Title is empty !!!",
+                    "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            if (rep) {
+                task.setTime(sdf.parse(view.getStartDateFromField()), sdf.parse(view.getEndDateFromField())
+                        , view.getIntervalFromField());
+            } else {
+                task.setTime(sdf.parse(view.getStartDateFromField()));
+            }
+        } catch (ParseException e) {
+            view.showErrorMessage("No correct format for date!!!");
+            logger.info("USER: " + e + " | no correct format for parse date");
+            return;
+        } catch (NumberFormatException e) {
+            view.showErrorMessage("No correct format for interval !!!");
+            logger.info("USER: " + e + " | no correct format for interval");
+            return;
+        } catch (TaskException e) {
+            e.printStackTrace();
+        }
+        task.setActive(view.isActiveFromField());
+        task.setView(view);
         view.showAllTask(taskList);
         view.getAddTaskFrame().setVisible(false);
         view.getAddTaskFrame().dispose();
