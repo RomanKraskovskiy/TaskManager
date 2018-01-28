@@ -45,6 +45,7 @@ public class Controller {
         this.view.addSetCalendarButtonListener(new SetCalendarListener());
         this.view.addCurrentTaskIndexListener(new GetIndexChoosedTask());
         this.view.addChangeButtonListener(new ChangeTask());
+        this.view.addRemoveButtonListener(new removeTask());
         Iterator itr = taskList.iterator();
         while(itr.hasNext()) {
             Task t = (Task) itr.next();
@@ -58,6 +59,16 @@ public class Controller {
      */
     public void updateView() throws ParseException {
         view.showAllTask(taskList);
+    }
+
+    class removeTask implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            taskList.remove(taskList.getTask(view.getCurrenTaskIndex()));
+            closeFrame();
+            view.showAllTask(taskList);
+        }
     }
 
     class ChangeTask implements ActionListener {
