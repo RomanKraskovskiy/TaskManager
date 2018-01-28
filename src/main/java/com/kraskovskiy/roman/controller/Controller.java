@@ -45,7 +45,7 @@ public class Controller {
         this.view.addSetCalendarButtonListener(new SetCalendarListener());
         this.view.addCurrentTaskIndexListener(new GetIndexChoosedTask());
         this.view.addChangeButtonListener(new ChangeTask());
-        this.view.addRemoveButtonListener(new removeTask());
+        this.view.addRemoveButtonListener(new RemoveTask());
         Iterator itr = taskList.iterator();
         while(itr.hasNext()) {
             Task t = (Task) itr.next();
@@ -61,16 +61,22 @@ public class Controller {
         view.showAllTask(taskList);
     }
 
-    class removeTask implements ActionListener {
+    /**
+     * remove task button listener
+     */
+    class RemoveTask implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            taskList.remove(taskList.getTask(view.getCurrenTaskIndex()));
+            removeTask(view.getCurrenTaskIndex());
             closeFrame();
             view.showAllTask(taskList);
         }
     }
 
+    /**
+     * change task button listener
+     */
     class ChangeTask implements ActionListener {
 
         @Override
@@ -84,6 +90,9 @@ public class Controller {
         }
     }
 
+    /**
+     * set index of choosed task in list listener
+     */
     class GetIndexChoosedTask implements ListSelectionListener {
 
         @Override
@@ -93,6 +102,9 @@ public class Controller {
         }
     }
 
+    /**
+     * set calendar buton listener
+     */
     class SetCalendarListener implements ActionListener {
 
         @Override
@@ -116,6 +128,9 @@ public class Controller {
         }
     }
 
+    /**
+     * add calendar frame button listener
+     */
     class CalendarButtonListener implements ActionListener {
 
         @Override
@@ -125,6 +140,9 @@ public class Controller {
         }
     }
 
+    /**
+     * close window listener
+     */
     class CloseWindowListener implements WindowListener {
         @Override
         public void windowOpened(WindowEvent e) {
@@ -162,6 +180,9 @@ public class Controller {
         }
     }
 
+    /**
+     * exit button listener
+     */
     class ExitButtonListener implements ActionListener {
 
         @Override
@@ -180,6 +201,10 @@ public class Controller {
             System.exit(0);
         }
     }
+
+    /**
+     * add frame for adding task listener
+     */
     class SetTaskListener implements ActionListener {
 
         @Override
@@ -189,12 +214,15 @@ public class Controller {
         }
     }
 
+    /**
+     * addChangeFrame button listener
+     */
     class ChangeTaskListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                view.createChangeTaskFrame(taskList, view.getCurrenTaskIndex()); //view.getTaskIndex()
+                view.createChangeTaskFrame(taskList, view.getCurrenTaskIndex());
             }catch (ArrayIndexOutOfBoundsException e1) {
                 view.showErrorMessage("Please, chose task for first !");
                 closeFrame();
@@ -203,6 +231,9 @@ public class Controller {
         }
     }
 
+    /**
+     * repeated checkbox listener
+     */
     class RepeatedCheckListener implements ActionListener {
 
         @Override
@@ -211,6 +242,9 @@ public class Controller {
         }
     }
 
+    /**
+     * add task button listener
+     */
     class AddTaskListener implements ActionListener {
 
         @Override
@@ -230,6 +264,9 @@ public class Controller {
         }
     }
 
+    /**
+     * cancel button listener
+     */
     class CancelTaskListener implements ActionListener {
 
         @Override
@@ -238,70 +275,14 @@ public class Controller {
         }
     }
 
+    /**
+     * close frame (add/change)
+     */
     public void closeFrame() {
         view.getAddTaskFrame().setVisible(false);
         view.getAddTaskFrame().dispose();
         view.setEnabled(true);
         view.setVisible(true);
-    }
-    /**
-     * change Active of choosed task
-     * @param taskNumb index of task
-     * @throws CloneNotSupportedException
-     */
-    public  void changeActive(int taskNumb) throws CloneNotSupportedException {
-        taskList.getTask(taskNumb).setActive(!taskList.getTask(taskNumb).isActive());
-    }
-
-    /**
-     * change Repeated of choosed task
-     * @param taskNumb index of task
-     * @throws CloneNotSupportedException
-     */
-    public  void changeRepeat(int taskNumb) throws CloneNotSupportedException {
-        taskList.getTask(taskNumb).setRepeated(!taskList.getTask(taskNumb).isRepeated());
-    }
-
-    /**
-     * change Time of choosed task
-     * @param taskNumb index of task
-     * @throws ParseException
-     * @throws TaskException
-     */
-    public void changeTime(int taskNumb) throws ParseException, TaskException {
-        Scanner scanner = new Scanner(System.in);
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
-            if (taskList.getTask(taskNumb).isRepeated()) {
-                Date s;
-                Date e;
-                int i;
-                System.out.println("Enter start date in format \"[yyyy-MM-dd HH:mm:ss.SSS]\":");
-                s = sdf.parse(scanner.nextLine());
-                System.out.println("Enter end date in format \"[yyyy-MM-dd HH:mm:ss.SSS]\":");
-                e = sdf.parse(scanner.nextLine());
-                System.out.println("Enter interval in seconds:");
-                i = scanner.nextInt();
-                taskList.getTask(taskNumb).setTime(s, e, i);
-            } else {
-                Date d;
-                System.out.println("Enter date in format \"[yyyy-MM-dd HH:mm:ss.SSS]\":");
-                d = sdf.parse(scanner.nextLine());
-                taskList.getTask(taskNumb).setTime(d);
-            }
-        } catch (ParseException e) {
-            System.out.println("no correct format");
-            logger.info("USER: " + e + " | no correct format for parse date");
-        }
-    }
-
-    /**
-     * change Title of choosed task
-     * @param taskNumb index of task
-     */
-    public void changeTitle(int taskNumb) {
-        System.out.println("Enter new title:");
-        taskList.getTask(taskNumb).setTitle(new Scanner(System.in).nextLine());
     }
 
     /**
@@ -354,6 +335,11 @@ public class Controller {
         view.setVisible(true);
     }
 
+    /**
+     * change task
+     * @param index of task
+     * @throws CloneNotSupportedException
+     */
     public void changeTask(int index) throws CloneNotSupportedException {
         boolean rep = view.isRepeatedFromField();
         SimpleDateFormat sdf = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");

@@ -50,14 +50,25 @@ public class View extends JFrame {
 
     private int currenTaskIndex;
 
+    /**
+     * @return index of selected in list task
+     */
     public int getCurrenTaskIndex() {
         return currenTaskIndex;
     }
 
+    /**
+     * set index of selected in list task
+     * @param currenTaskIndex
+     */
     public void setCurrenTaskIndex(int currenTaskIndex) {
         this.currenTaskIndex = currenTaskIndex;
     }
 
+    /**
+     * Constructor
+     * main menu
+     */
     public View() {
         this.setTitle("Task Manager");
         JPanel container = new JPanel();
@@ -82,6 +93,9 @@ public class View extends JFrame {
         this.add(container);
     }
 
+    /**
+     * change enabled of fields for repeated tasks
+     */
     public void setRepeatedCheck() {
         if(endTimeDate.isEnabled()) {
             endTimeDate.setEnabled(false);
@@ -92,78 +106,147 @@ public class View extends JFrame {
         }
     }
 
+    /**
+     * added listener for closing window
+     * @param wl
+     */
     public void addCloseWindowListener(WindowListener wl) {
         addTaskFrame.addWindowListener(wl);
     }
 
+    /**
+     * add listener for button for add frame for add task
+     * @param al
+     */
     public void addButtonListener(ActionListener al) {
         addButton.addActionListener(al);
     }
 
+    /**
+     * add listener for checkbox for change repeated Task
+     * @param al
+     */
     public void addCheckRepeatedListener(ActionListener al) {
         repeatedCheck.addActionListener(al);
     }
 
+    /**
+     * add listener for button for add Task
+     * @param al
+     */
     public void addTaskButtonListener(ActionListener al) {
         addTaskButton.addActionListener(al);
     }
 
+    /**
+     * add listener for close frame
+     * @param al
+     */
     public void addCancelButtonListener(ActionListener al) {
         cancelTaskButton.addActionListener(al);
     }
 
+    /**
+     * add listener for button for adding ftame for change task
+     * @param al
+     */
     public void addChangeAndViewListener(ActionListener al) {
         chooseTaskButton.addActionListener(al);
     }
 
+    /**
+     * add listener for button for closing program
+     * @param al
+     */
     public void addExitButtonListener(ActionListener al) {
         exitButton.addActionListener(al);
     }
 
+    /**
+     * add listener for button for adding frame for calendar
+     * @param al
+     */
     public void addCalendarButtonListener(ActionListener al) {
         chooseButton.addActionListener(al);
     }
 
+    /**
+     * add listener for button for set calendar
+     * @param al
+     */
     public void addSetCalendarButtonListener(ActionListener al) {
         setCalendarButton.addActionListener(al);
     }
 
+    /**
+     * add listener for changing selected element in list
+     * @param lsl
+     */
     public void addCurrentTaskIndexListener(ListSelectionListener lsl) {
         taskList.addListSelectionListener(lsl);
     }
 
+    /**
+     * add listener for button for changing Task
+     * @param al
+     */
     public void addChangeButtonListener(ActionListener al) {
         changeTaskButton.addActionListener(al);
     }
 
+    /**
+     * add listener for button for remove Task
+     * @param al
+     */
     public void addRemoveButtonListener(ActionListener al) {
         removeTaskButton.addActionListener(al);
     }
 
+    /**
+     * @return title from field
+     */
     public String getTitleFromField() {
         return titleDate.getText();
     }
 
+    /**
+     * @return start date from field
+     */
     public String getStartDateFromField() {
         return startTimeDate.getText();
     }
 
+    /**
+     * @return end date from field
+     */
     public String getEndDateFromField() {
         return endTimeDate.getText();
     }
 
+    /**
+     * @return interval from field
+     */
     public int getIntervalFromField() {
         return Integer.parseInt(interval.getText());
     }
 
+    /**
+     * @return current frame(add or change)
+     */
     public JFrame getAddTaskFrame() {
         return addTaskFrame;
     }
 
+    /**
+     * @return repeated from checkbox
+     */
     public boolean isRepeatedFromField () {
         return repeatedCheck.isSelected();
     }
 
+    /**
+     * @return active from checkbox
+     */
     public boolean isActiveFromField () {
         return activeCheck.isSelected();
     }
@@ -184,6 +267,9 @@ public class View extends JFrame {
         taskList = new JList(allTasks);
     }
 
+    /**
+     * create pattern for add or change task frame
+     */
     public void createFrame() {
         titleDate.setText("");
         startTimeDate.setText("");
@@ -223,12 +309,20 @@ public class View extends JFrame {
         this.setEnabled(false);
     }
 
+    /**
+     * create frame for adding task
+     */
     public void createAddTaskFrame() {
         createFrame();
         addTaskButton.setBounds(40,210,100,40);
         addTaskPanel.add(addTaskButton);
     }
 
+    /**
+     * create frame for changing task
+     * @param taskList of task
+     * @param index of task
+     */
     public void createChangeTaskFrame(TaskList taskList, int index) {
         createFrame();
         activeCheck.setBounds(110, 90, 90, 20);
@@ -262,6 +356,9 @@ public class View extends JFrame {
         }
     }
 
+    /**
+     * create frame for view calendar
+     */
     public void createCalendarFrame() {
         startTimeDate.setText("");
         endTimeDate.setText("");
@@ -313,11 +410,19 @@ public class View extends JFrame {
         }
     }
 
+    /**
+     * create dialog window for alerting user
+     * @param s message
+     */
     public void showErrorMessage(String s) {
         JOptionPane.showConfirmDialog(getAddTaskFrame(),s,
                 "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * create dialog window for alerting user about task that time is now
+     * @param s message
+     */
     public void showCurrentTask(String s) {
         JOptionPane.showConfirmDialog(this,s,
                 "What time is now ?", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
