@@ -91,6 +91,7 @@ public class View extends JFrame {
         exitButton.setBounds(450,185,300,50);
         container.add(exitButton);
         this.add(container);
+        currenTaskIndex = -1;
     }
 
     /**
