@@ -24,10 +24,16 @@ public class Task extends TimerTask implements Cloneable, Serializable {
     private Task taskRun;
     private View view;
 
+    /**
+     * @param view for show alert
+     */
     public void setView(View view) {
         this.view = view;
     }
 
+    /**
+     * @return view for show alert
+     */
     public View getView() {
         return view;
     }
