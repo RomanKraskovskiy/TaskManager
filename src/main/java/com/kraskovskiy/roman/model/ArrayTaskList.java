@@ -99,11 +99,14 @@ public class ArrayTaskList extends TaskList {
      */
     @Override
     public String toString() {
-        for(int i = 0; i < size; i++) {
-            System.out.print(i + ") ");
-            System.out.println(getTask(i).toString());
+        String s = "";
+        Iterator itr = iterator();
+        while(itr.hasNext()) {
+            Task t = (Task) itr.next();
+            s += t.toString();
+            if(!itr.hasNext()) s+= "\n";
         }
-        return "Count of tasks: " + size;
+        return s;
     }
 
     /**

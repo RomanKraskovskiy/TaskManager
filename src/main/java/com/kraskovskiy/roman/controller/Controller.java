@@ -2,6 +2,9 @@ package com.kraskovskiy.roman.controller;
 
 import com.kraskovskiy.roman.model.*;
 import com.kraskovskiy.roman.view.View;
+import com.kraskovskiy.roman.view.ViewAddTask;
+import com.kraskovskiy.roman.view.ViewCalendar;
+import com.kraskovskiy.roman.view.ViewChangeTask;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
@@ -24,7 +27,9 @@ import java.util.*;
 public class Controller {
     private TaskList taskList;
     private View view;
-
+    private ViewAddTask viewAddTask = new ViewAddTask();
+    private ViewChangeTask viewChangeTask = new ViewChangeTask();
+    private ViewCalendar viewCalendar = new ViewCalendar();
     public final static Logger logger = Logger.getLogger(Controller.class);
 
     /**
@@ -35,16 +40,23 @@ public class Controller {
     public Controller(TaskList taskList, View view) {
         this.taskList = taskList;
         this.view = view;
+        viewAddTask.setMainFrame(view);
+        viewChangeTask.setMainFrame(view);
+        viewCalendar.setMainFrame(view);
         this.view.addButtonListener(new SetTaskListener());
-        this.view.addCheckRepeatedListener(new RepeatedCheckListener());
-        this.view.addTaskButtonListener(new AddTaskListener());
-        this.view.addCancelButtonListener(new CancelTaskListener());
+        this.viewAddTask.addCheckRepeatedListener(new RepeatedCheckListener());
+        this.viewAddTask.addTaskButtonListener(new AddTaskListener());
+        this.viewAddTask.addCancelButtonListener(new CancelTaskListener());
         this.view.addChangeAndViewListener(new ChangeTaskListener());
         this.view.addExitButtonListener(new ExitButtonListener());
         this.view.addCalendarButtonListener(new CalendarButtonListener());
-        this.view.addSetCalendarButtonListener(new SetCalendarListener());
+        this.viewCalendar.addSetCalendarButtonListener(new SetCalendarListener());
+        this.viewCalendar.addCancelButtonListener(new CancelTaskListener());
         this.view.addCurrentTaskIndexListener(new GetIndexChoosedTask());
-        this.view.addChangeButtonListener(new ChangeTask());
+        this.viewChangeTask.addChangeButtonListener(new ChangeTask());
+        this.viewChangeTask.addRemoveButtonListener(new RemoveTask());
+        this.viewChangeTask.addCancelButtonListener(new CancelTaskListener());
+        this.viewChangeTask.addCheckRepeatedListener(new RepeatedCheckListener());
         this.view.addRemoveButtonListener(new RemoveTask());
         Iterator itr = taskList.iterator();
         while(itr.hasNext()) {
@@ -68,7 +80,12 @@ public class Controller {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            removeTask(view.getCurrenTaskIndex());
+            try {
+                removeTask(view.getCurrenTaskIndex());
+            } catch (ArrayIndexOutOfBoundsException e1) {
+                    view.showErrorMessage("Please, choose task for first !");
+                    closeFrame();
+            }
             closeFrame();
             view.showAllTask(taskList);
         }
@@ -85,7 +102,7 @@ public class Controller {
                 changeTask(view.getCurrenTaskIndex());
             } catch (CloneNotSupportedException e1) {
                 view.showErrorMessage("");
-                logger.fatal("ERROR: " + e + " | " + e1.getMessage(),e1);
+                logger.error("ERROR: " + e + " | " + e1.getMessage(),e1);
             }
         }
     }
@@ -111,15 +128,15 @@ public class Controller {
         public void actionPerformed(ActionEvent e) {
             SimpleDateFormat sdf = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
             try {
-                Date st = sdf.parse(view.getStartDateFromField());
-                Date en = sdf.parse(view.getEndDateFromField());
+                Date st = sdf.parse(viewCalendar.getStartDateFromField());
+                Date en = sdf.parse(viewCalendar.getEndDateFromField());
                 if(st.getTime() > en.getTime()) {
                     view.showErrorMessage("Start dane can no to be after end !!!");
                 }
                 SortedMap sortedMap = Tasks.calendar(taskList,st,en);
-                view.showFromToTasks(sortedMap);
+                viewCalendar.showFromToTasks(sortedMap);
             } catch (CloneNotSupportedException e1) {
-                logger.fatal(e1.getMessage(),e1);
+                logger.error(e1.getMessage(),e1);
                 view.showErrorMessage("Unknown error !!!");
             } catch (ParseException e1) {
                 view.showErrorMessage("No correct format for date");
@@ -135,8 +152,8 @@ public class Controller {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            view.createCalendarFrame();
-            view.addCloseWindowListener(new CloseWindowListener());
+            viewCalendar.newFrame();
+            viewCalendar.addCloseWindowListener(new CloseWindowListener());
         }
     }
 
@@ -192,10 +209,10 @@ public class Controller {
                 TaskIO.writeBinary(taskList,new File("tasks.txt"));
             } catch (IOException e1) {
                 view.showErrorMessage("Changing don't save !!!");
-                logger.fatal(e1.getMessage(),e1);
+                logger.error(e1.getMessage(),e1);
             } catch (TaskOutputException e1) {
                 view.showErrorMessage("Changing don't save !!!");
-                logger.fatal(e1.getMessage(),e1);
+                logger.error(e1.getMessage(),e1);
             }
 
             System.exit(0);
@@ -209,8 +226,8 @@ public class Controller {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            view.createAddTaskFrame();
-            view.addCloseWindowListener(new CloseWindowListener());
+            viewAddTask.newFrame();
+            viewAddTask.addCloseWindowListener(new CloseWindowListener());
         }
     }
 
@@ -222,12 +239,13 @@ public class Controller {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                view.createChangeTaskFrame(taskList, view.getCurrenTaskIndex());
+                viewChangeTask.setTaskListandIndex(taskList, view.getCurrenTaskIndex());
+                viewChangeTask.newFrame();
             }catch (ArrayIndexOutOfBoundsException e1) {
                 view.showErrorMessage("Please, chose task for first !");
                 closeFrame();
             }
-            view.addCloseWindowListener(new CloseWindowListener());
+            viewChangeTask.addCloseWindowListener(new CloseWindowListener());
         }
     }
 
@@ -238,7 +256,8 @@ public class Controller {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            view.setRepeatedCheck();
+            viewChangeTask.setRepeatedCheck();
+            viewAddTask.setRepeatedCheck();
         }
     }
 
@@ -259,7 +278,7 @@ public class Controller {
                 logger.info("USER: " + e + " | " + e1.getMessage());
             } catch (CloneNotSupportedException e1) {
                 view.showErrorMessage("");
-                logger.fatal("ERROR: " + e + " | " + e1.getMessage(),e1);
+                logger.error("ERROR: " + e + " | " + e1.getMessage(),e1);
             }
         }
     }
@@ -279,8 +298,12 @@ public class Controller {
      * close frame (add/change)
      */
     public void closeFrame() {
-        view.getAddTaskFrame().setVisible(false);
-        view.getAddTaskFrame().dispose();
+        viewAddTask.getAddTaskFrame().setVisible(false);
+        viewAddTask.getAddTaskFrame().dispose();
+        viewChangeTask.getAddTaskFrame().setVisible(false);
+        viewChangeTask.getAddTaskFrame().dispose();
+        viewCalendar.getAddTaskFrame().setVisible(false);
+        viewCalendar.getAddTaskFrame().dispose();
         view.setEnabled(true);
         view.setVisible(true);
     }
@@ -300,21 +323,21 @@ public class Controller {
      * @throws CloneNotSupportedException
      */
     public void setTask() throws ParseException, TaskException, CloneNotSupportedException {
-        boolean rep = view.isRepeatedFromField();
+        boolean rep = viewAddTask.isRepeatedFromField();
         SimpleDateFormat sdf = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
         Task task = new Task();
-        task.setTitle(view.getTitleFromField());
+        task.setTitle(viewAddTask.getTitleFromField());
         if (task.getTitle().equals("")) {
-            JOptionPane.showConfirmDialog(view.getAddTaskFrame(),"Title is empty !!!",
+            JOptionPane.showConfirmDialog(viewAddTask.getAddTaskFrame(),"Title is empty !!!",
                     "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
             return;
         }
         try {
             if (rep) {
-                task.setTime(sdf.parse(view.getStartDateFromField()), sdf.parse(view.getEndDateFromField())
-                        , view.getIntervalFromField());
+                task.setTime(sdf.parse(viewAddTask.getStartDateFromField()), sdf.parse(viewAddTask.getEndDateFromField())
+                        , viewAddTask.getIntervalFromField());
             } else {
-                task.setTime(sdf.parse(view.getStartDateFromField()));
+                task.setTime(sdf.parse(viewAddTask.getStartDateFromField()));
             }
         } catch (ParseException e) {
             view.showErrorMessage("No correct format for date!!!");
@@ -329,8 +352,8 @@ public class Controller {
         task.setView(view);
         taskList.add(task);
         view.showAllTask(taskList);
-        view.getAddTaskFrame().setVisible(false);
-        view.getAddTaskFrame().dispose();
+        viewAddTask.getAddTaskFrame().setVisible(false);
+        viewAddTask.getAddTaskFrame().dispose();
         view.setEnabled(true);
         view.setVisible(true);
     }
@@ -341,21 +364,21 @@ public class Controller {
      * @throws CloneNotSupportedException
      */
     public void changeTask(int index) throws CloneNotSupportedException {
-        boolean rep = view.isRepeatedFromField();
+        boolean rep = viewChangeTask.isRepeatedFromField();
         SimpleDateFormat sdf = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
         Task task = taskList.getTask(index);
-        task.setTitle(view.getTitleFromField());
+        task.setTitle(viewChangeTask.getTitleFromField());
         if (task.getTitle().equals("")) {
-            JOptionPane.showConfirmDialog(view.getAddTaskFrame(),"Title is empty !!!",
+            JOptionPane.showConfirmDialog(viewChangeTask.getAddTaskFrame(),"Title is empty !!!",
                     "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
             return;
         }
         try {
             if (rep) {
-                task.setTime(sdf.parse(view.getStartDateFromField()), sdf.parse(view.getEndDateFromField())
-                        , view.getIntervalFromField());
+                task.setTime(sdf.parse(viewChangeTask.getStartDateFromField()), sdf.parse(viewChangeTask.getEndDateFromField())
+                        , viewChangeTask.getIntervalFromField());
             } else {
-                task.setTime(sdf.parse(view.getStartDateFromField()));
+                task.setTime(sdf.parse(viewChangeTask.getStartDateFromField()));
             }
         } catch (ParseException e) {
             view.showErrorMessage("No correct format for date!!!");
@@ -368,11 +391,11 @@ public class Controller {
         } catch (TaskException e) {
             e.printStackTrace();
         }
-        task.setActive(view.isActiveFromField());
+        task.setActive(viewChangeTask.isActiveFromField());
         task.setView(view);
         view.showAllTask(taskList);
-        view.getAddTaskFrame().setVisible(false);
-        view.getAddTaskFrame().dispose();
+        viewChangeTask.getAddTaskFrame().setVisible(false);
+        viewChangeTask.getAddTaskFrame().dispose();
         view.setEnabled(true);
         view.setVisible(true);
     }

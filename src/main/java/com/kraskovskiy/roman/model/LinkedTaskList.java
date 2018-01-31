@@ -171,14 +171,14 @@ public class LinkedTaskList extends TaskList {
      * @return count of tasks
      */
     public String toString() {
-        LinkedTaskListIterator itr = (LinkedTaskListIterator)iterator();
-        int i = 0;
-        while(itr.hasNext()){
-            System.out.print(i + ") ");
-            System.out.println(itr.next().toString());
-            i++;
+        String s = "";
+        Iterator itr = iterator();
+        while(itr.hasNext()) {
+            Task t = (Task) itr.next();
+            s += t.toString();
+            if(!itr.hasNext()) s+= "\n";
         }
-        return "Count of tasks: " + size;
+        return s;
     }
 
     /**

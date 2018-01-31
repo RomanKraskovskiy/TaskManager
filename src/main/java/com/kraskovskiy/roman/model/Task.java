@@ -92,8 +92,11 @@ public class Task extends TimerTask implements Cloneable, Serializable {
      */
     public void setActive(boolean active) throws CloneNotSupportedException {
         this.active = active;
-        if(active) startTimer(); else if(timer != null) {
+        if(timer != null) {
             timer.cancel();
+        }
+        if(active) {
+            startTimer();
         }
     }
 
@@ -281,7 +284,7 @@ public class Task extends TimerTask implements Cloneable, Serializable {
      * repeat task
      * @throws TaskException if time is not right
      */
-    public void setTime(Date start, Date end, int interval) throws TaskException {
+    public void setTime(Date start, Date end, int interval) throws TaskException, CloneNotSupportedException {
         timeTest(start,end,interval);
         this.start = start;
         this.end = end;

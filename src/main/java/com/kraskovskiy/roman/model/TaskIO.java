@@ -109,9 +109,6 @@ public class TaskIO {
             OutputStream outFile = new FileOutputStream(file);
             try {
                 write(tasks,outFile);
-            }catch (TaskOutputException e) {
-                System.out.println("Output error!!!");
-                System.out.println(e.getMessage());
             }finally{
                 outFile.close();
             }
@@ -134,9 +131,6 @@ public class TaskIO {
             InputStream outFile = new FileInputStream(file);
             try {
                 read(tasks,outFile);
-            }catch (TaskInputException e) {
-                System.out.println("Input error!!!");
-                System.out.println(e.getMessage());
             }finally {
                 outFile.close();
             }
@@ -312,9 +306,6 @@ public class TaskIO {
             Writer wr = new FileWriter(file);
             try {
                 write(tasks,wr);
-            }catch (TaskOutputException e) {
-                System.out.println("Output error!!!");
-                System.out.println(e.getMessage());
             }finally{
                 wr.close();
             }
@@ -338,9 +329,6 @@ public class TaskIO {
             Reader rd = new FileReader(file);
             try {
                 read(tasks,rd);
-            }catch (TaskInputException e) {
-                System.out.println("Input error!!!");
-                System.out.println(e.getMessage());
             }finally {
                 rd.close();
             }

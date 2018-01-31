@@ -31,14 +31,13 @@ public class Main {
         try {
             TaskIO.readBinary(ts, new File("tasks.txt"));
         }catch (TaskInputException e) {
-            System.out.println(e.getMessage());
             Controller.logger.error(e.getMessage(),e);
         }
         Controller tasksContoller = new Controller(ts,viewTasks);
         try {
             tasksContoller.updateView();
         } catch (Exception e) {
-            Controller.logger.fatal(e.getMessage(),e);
+            Controller.logger.error(e.getMessage(),e);
         }
     }
 }
