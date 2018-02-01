@@ -132,7 +132,6 @@ public class View extends JFrame {
             allTasks.addElement((i + 1) + ") " + t.toString());
             i++;
         }
-        taskList = new JList(allTasks);
     }
 
     /**

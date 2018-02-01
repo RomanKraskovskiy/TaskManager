@@ -1,8 +1,13 @@
 package com.kraskovskiy.roman.view;
 
+import com.kraskovskiy.roman.model.Task;
+
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
+import java.util.Date;
+import java.util.Set;
+import java.util.SortedMap;
 
 public abstract class ViewAddAndChangeTask {
     protected JFrame addTaskFrame = new JFrame();
@@ -14,6 +19,7 @@ public abstract class ViewAddAndChangeTask {
     protected JLabel startTimeDateLabel = new JLabel("Enter start date \"[yyyy-MM-dd HH:mm:ss.SSS]\":");
     protected JLabel endTimeDateLabel = new JLabel("Enter end date \"[yyyy-MM-dd HH:mm:ss.SSS]\":");
     protected JCheckBox repeatedCheck = new JCheckBox("Repeated");
+    protected JCheckBox activeCheck = new JCheckBox("Active");
     protected JButton addTaskButton = new JButton("Add");
     protected JButton cancelTaskButton = new JButton("Cancel");
     protected JLabel intervalLabel = new JLabel("Enter interval:");
@@ -30,6 +36,13 @@ public abstract class ViewAddAndChangeTask {
      */
     public void addCloseWindowListener(WindowListener wl) {
         addTaskFrame.addWindowListener(wl);
+    }
+
+    /**
+     * @return active from checkbox
+     */
+    public boolean isActiveFromField () {
+        return activeCheck.isSelected();
     }
 
     /**
@@ -148,4 +161,10 @@ public abstract class ViewAddAndChangeTask {
     }
 
     public abstract void newFrame();
+
+    public void showFromToTasks(SortedMap<Date, Set<Task>> sortedMap) {
+        /*
+        for overriding
+         */
+    }
 }

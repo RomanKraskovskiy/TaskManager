@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 public class ViewChangeTask extends ViewAddAndChangeTask {
     private JButton removeTaskButton = new JButton("Remove");
     private JButton changeTaskButton = new JButton("Change");
-    private JCheckBox activeCheck = new JCheckBox("Active");
 
     private TaskList taskList;
     private int index;
@@ -35,13 +34,7 @@ public class ViewChangeTask extends ViewAddAndChangeTask {
         removeTaskButton.addActionListener(al);
     }
 
-    /**
-     * @return active from checkbox
-     */
-    public boolean isActiveFromField () {
-        return activeCheck.isSelected();
-    }
-
+    @Override
     public void newFrame() {
         createFrame();
         activeCheck.setBounds(110, 90, 90, 20);

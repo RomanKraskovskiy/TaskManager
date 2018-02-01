@@ -6,6 +6,7 @@ public class ViewAddTask extends ViewAddAndChangeTask {
     /**
      * create frame for adding task
      */
+    @Override
     public void newFrame() {
         createFrame();
         addTaskButton.setBounds(40,210,100,40);

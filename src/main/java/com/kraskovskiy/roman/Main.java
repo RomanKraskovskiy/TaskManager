@@ -23,17 +23,8 @@ public class Main {
      * @throws TaskOutputException
      * @throws TaskException
      */
-    public static void main(String[] args) throws ParseException, CloneNotSupportedException, IOException, TaskInputException, TaskOutputException, TaskException {
-        TaskList ts = new ArrayTaskList();
-        View viewTasks = new View();
-        viewTasks.setVisible(true);
-
-        try {
-            TaskIO.readBinary(ts, new File("tasks.txt"));
-        }catch (TaskInputException e) {
-            Controller.logger.error(e.getMessage(),e);
-        }
-        Controller tasksContoller = new Controller(ts,viewTasks);
+    public static void main(String[] args) throws CloneNotSupportedException, IOException, TaskException {
+        Controller tasksContoller = new Controller();
         try {
             tasksContoller.updateView();
         } catch (Exception e) {

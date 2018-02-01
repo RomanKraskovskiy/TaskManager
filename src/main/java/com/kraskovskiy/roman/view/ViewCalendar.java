@@ -18,6 +18,7 @@ public class ViewCalendar extends ViewAddAndChangeTask {
     /**
      * create frame for view calendar
      */
+    @Override
     public void newFrame() {
         startTimeDate.setText("");
         endTimeDate.setText("");
@@ -64,6 +65,7 @@ public class ViewCalendar extends ViewAddAndChangeTask {
      * display dates and all repeated of tasks in said interval
      * @param sortedMap SortedMap with dates and all repeated of tasks in said interval
      */
+    @Override
     public void showFromToTasks(SortedMap<Date, Set<Task>> sortedMap) {
         SimpleDateFormat sdf = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
         calendarArea.setText("");
