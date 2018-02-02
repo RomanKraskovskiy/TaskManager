@@ -10,12 +10,23 @@ import java.util.Set;
 import java.util.SortedMap;
 
 public abstract class ViewAddAndChangeTask {
+
+    protected SpinnerDateModel modelStart = new SpinnerDateModel();
+    protected SpinnerDateModel modelEnd = new SpinnerDateModel();
+    protected JSpinner startTimeDate = new JSpinner(modelStart);
+    protected JSpinner endTimeDate = new JSpinner(modelEnd);
+    protected JSpinner.DateEditor timeStartEditor = new JSpinner.DateEditor(startTimeDate,
+            "yyyy-MM-dd HH:mm:ss.SSS");
+    protected JSpinner.DateEditor timeEndEditor = new JSpinner.DateEditor(endTimeDate,
+            "yyyy-MM-dd HH:mm:ss.SSS");
+    protected SpinnerDateModel modelInterval = new SpinnerDateModel();
+    protected JSpinner interval = new JSpinner(modelInterval);
+    protected JSpinner.DateEditor timeIntervalEditor = new JSpinner.DateEditor(endTimeDate,
+            "HH:mm:ss");
     protected JFrame addTaskFrame = new JFrame();
     protected JPanel addTaskPanel;
     protected JLabel titleDateLabel = new JLabel("Enter title:");
     protected JTextField titleDate = new JTextField();
-    protected JTextField startTimeDate = new JTextField();
-    protected JTextField endTimeDate = new JTextField();
     protected JLabel startTimeDateLabel = new JLabel("Enter start date \"[yyyy-MM-dd HH:mm:ss.SSS]\":");
     protected JLabel endTimeDateLabel = new JLabel("Enter end date \"[yyyy-MM-dd HH:mm:ss.SSS]\":");
     protected JCheckBox repeatedCheck = new JCheckBox("Repeated");
@@ -23,7 +34,7 @@ public abstract class ViewAddAndChangeTask {
     protected JButton addTaskButton = new JButton("Add");
     protected JButton cancelTaskButton = new JButton("Cancel");
     protected JLabel intervalLabel = new JLabel("Enter interval:");
-    protected JTextField interval = new JTextField();
+    //protected JTextField interval = new JTextField();
     protected JFrame mainFrame;
 
     public void setMainFrame(JFrame mainFrame) {
@@ -86,22 +97,23 @@ public abstract class ViewAddAndChangeTask {
     /**
      * @return start date from field
      */
-    public String getStartDateFromField() {
-        return startTimeDate.getText();
+    public Date getStartDateFromField() {
+        return (Date) startTimeDate.getValue();
     }
 
     /**
      * @return end date from field
      */
-    public String getEndDateFromField() {
-        return endTimeDate.getText();
+    public Date getEndDateFromField() {
+        return (Date) endTimeDate.getValue();
     }
 
     /**
      * @return interval from field
      */
     public int getIntervalFromField() {
-        return Integer.parseInt(interval.getText());
+        Date inter = (Date) interval.getValue();
+        return (int) inter.getTime();
     }
 
     /**
@@ -123,9 +135,10 @@ public abstract class ViewAddAndChangeTask {
      */
     public void createFrame() {
         titleDate.setText("");
-        startTimeDate.setText("");
-        endTimeDate.setText("");
-        interval.setText("");
+        startTimeDate.setEditor(timeStartEditor);
+        endTimeDate.setEditor(timeEndEditor);
+        //interval.setEditor(timeIntervalEditor);
+        interval.setValue(new Date(0));
         addTaskFrame = new JFrame("Task");
         addTaskFrame.setBounds(200, 200, 300, 320);
         addTaskFrame.setResizable(false);

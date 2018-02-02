@@ -6,6 +6,7 @@ import com.kraskovskiy.roman.model.TaskList;
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ViewChangeTask extends ViewAddAndChangeTask {
     private JButton removeTaskButton = new JButton("Remove");
@@ -43,11 +44,10 @@ public class ViewChangeTask extends ViewAddAndChangeTask {
         addTaskPanel.add(changeTaskButton);
         removeTaskButton.setBounds(40,260,210,15);
         addTaskPanel.add(removeTaskButton);
-        SimpleDateFormat sdf = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
         Task task;
         task = taskList.getTask(index);
         titleDate.setText(task.getTitle());
-        startTimeDate.setText(sdf.format(task.getStartTime()));
+        startTimeDate.setValue(task.getStartTime());
         if(task.isActive()) {
             activeCheck.setSelected(true);
         } else {
@@ -57,14 +57,14 @@ public class ViewChangeTask extends ViewAddAndChangeTask {
             endTimeDate.setEnabled(true);
             interval.setEnabled(true);
             repeatedCheck.setSelected(true);
-            endTimeDate.setText(sdf.format(task.getEndTime()));
-            interval.setText(Integer.toString(task.getRepeatInterval()));
+            endTimeDate.setValue(task.getEndTime());
+            interval.setValue(new Date(task.getRepeatInterval()));
         } else {
             endTimeDate.setEnabled(false);
             interval.setEnabled(false);
             repeatedCheck.setSelected(false);
-            endTimeDate.setText("");
-            interval.setText("");
+            endTimeDate.setValue(new Date());
+            interval.setValue(new Date(0));
         }
     }
 }

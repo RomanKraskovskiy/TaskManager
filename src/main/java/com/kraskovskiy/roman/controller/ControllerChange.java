@@ -9,8 +9,6 @@ import com.kraskovskiy.roman.view.ViewAddAndChangeTask;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import static com.kraskovskiy.roman.controller.Controller.logger;
 
@@ -47,7 +45,6 @@ public class ControllerChange extends ControllerAddAndChange {
      */
     public void changeTask(int index) throws CloneNotSupportedException {
         boolean rep = viewAddAndChangeTask.isRepeatedFromField();
-        SimpleDateFormat sdf = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
         Task task = taskList.getTask(index);
         task.setTitle(viewAddAndChangeTask.getTitleFromField());
         if (task.getTitle().equals("")) {
@@ -57,21 +54,18 @@ public class ControllerChange extends ControllerAddAndChange {
         }
         try {
             if (rep) {
-                task.setTime(sdf.parse(viewAddAndChangeTask.getStartDateFromField()), sdf.parse(viewAddAndChangeTask.getEndDateFromField())
+                task.setTime(viewAddAndChangeTask.getStartDateFromField(), viewAddAndChangeTask.getEndDateFromField()
                         , viewAddAndChangeTask.getIntervalFromField());
             } else {
-                task.setTime(sdf.parse(viewAddAndChangeTask.getStartDateFromField()));
+                task.setTime(viewAddAndChangeTask.getStartDateFromField());
             }
-        } catch (ParseException e) {
-            view.showErrorMessage("No correct format for date!!!");
-            logger.info("USER: " + e + " | no correct format for parse date");
-            return;
         } catch (NumberFormatException e) {
             view.showErrorMessage("No correct format for interval !!!");
             logger.info("USER: " + e + " | no correct format for interval");
             return;
         } catch (TaskException e) {
-            e.printStackTrace();
+            view.showErrorMessage(e.getMessage());
+            logger.info("USER: " + e + " | " + e.getMessage());
         }
         task.setActive(viewAddAndChangeTask.isActiveFromField());
         task.setView(view);

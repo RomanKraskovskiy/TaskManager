@@ -5,13 +5,10 @@ import com.kraskovskiy.roman.model.TaskException;
 import com.kraskovskiy.roman.model.TaskList;
 import com.kraskovskiy.roman.view.View;
 import com.kraskovskiy.roman.view.ViewAddAndChangeTask;
-import com.kraskovskiy.roman.view.ViewAddTask;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import static com.kraskovskiy.roman.controller.Controller.logger;
 
@@ -35,9 +32,6 @@ public class ControllerAdd extends ControllerAddAndChange {
         public void actionPerformed(ActionEvent e) {
             try {
                 setTask();
-            } catch (ParseException e1) {
-                view.showErrorMessage("No correct format for date");
-                logger.info("USER: " + e + " | no correct format for parse interval");
             } catch (TaskException e1) {
                 view.showErrorMessage(e1.getMessage());
                 logger.info("USER: " + e + " | " + e1.getMessage());
@@ -50,13 +44,11 @@ public class ControllerAdd extends ControllerAddAndChange {
 
     /**
      * add new Task
-     * @throws ParseException
      * @throws TaskException
      * @throws CloneNotSupportedException
      */
-    public void setTask() throws ParseException, TaskException, CloneNotSupportedException {
+    public void setTask() throws TaskException, CloneNotSupportedException {
         boolean rep = viewAddAndChangeTask.isRepeatedFromField();
-        SimpleDateFormat sdf = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
         Task task = new Task();
         task.setTitle(viewAddAndChangeTask.getTitleFromField());
         if (task.getTitle().equals("")) {
@@ -66,15 +58,11 @@ public class ControllerAdd extends ControllerAddAndChange {
         }
         try {
             if (rep) {
-                task.setTime(sdf.parse(viewAddAndChangeTask.getStartDateFromField()), sdf.parse(viewAddAndChangeTask.getEndDateFromField())
+                task.setTime(viewAddAndChangeTask.getStartDateFromField(), viewAddAndChangeTask.getEndDateFromField()
                         , viewAddAndChangeTask.getIntervalFromField());
             } else {
-                task.setTime(sdf.parse(viewAddAndChangeTask.getStartDateFromField()));
+                task.setTime(viewAddAndChangeTask.getStartDateFromField());
             }
-        } catch (ParseException e) {
-            view.showErrorMessage("No correct format for date!!!");
-            logger.info("USER: " + e + " | no correct format for parse date");
-            return;
         } catch (NumberFormatException e) {
             view.showErrorMessage("No correct format for interval !!!");
             logger.info("USER: " + e + " | no correct format for interval");

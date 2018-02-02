@@ -20,8 +20,8 @@ public class ViewCalendar extends ViewAddAndChangeTask {
      */
     @Override
     public void newFrame() {
-        startTimeDate.setText("");
-        endTimeDate.setText("");
+        startTimeDate.setEditor(timeStartEditor);
+        endTimeDate.setEditor(timeEndEditor);
         addTaskFrame = new JFrame("Calendar");
         addTaskFrame.setBounds(200, 200, 300, 380);
         addTaskFrame.setResizable(false);

@@ -33,8 +33,8 @@ public class ControllerCalendar extends ControllerAddAndChange {
         public void actionPerformed(ActionEvent e) {
             SimpleDateFormat sdf = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
             try {
-                Date st = sdf.parse(viewAddAndChangeTask.getStartDateFromField());
-                Date en = sdf.parse(viewAddAndChangeTask.getEndDateFromField());
+                Date st = viewAddAndChangeTask.getStartDateFromField();
+                Date en = viewAddAndChangeTask.getEndDateFromField();
                 if(st.getTime() > en.getTime()) {
                     view.showErrorMessage("Start dane can no to be after end !!!");
                 }
@@ -43,9 +43,6 @@ public class ControllerCalendar extends ControllerAddAndChange {
             } catch (CloneNotSupportedException e1) {
                 logger.error(e1.getMessage(),e1);
                 view.showErrorMessage("Unknown error !!!");
-            } catch (ParseException e1) {
-                view.showErrorMessage("No correct format for date");
-                logger.info("USER: " + e + " | no correct format for parse interval");
             }
         }
     }
