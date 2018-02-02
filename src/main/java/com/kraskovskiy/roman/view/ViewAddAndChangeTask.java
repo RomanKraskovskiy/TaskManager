@@ -3,13 +3,24 @@ package com.kraskovskiy.roman.view;
 import com.kraskovskiy.roman.model.Task;
 
 import javax.swing.*;
+import javax.swing.text.DateFormatter;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowListener;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 import java.util.SortedMap;
 
 public abstract class ViewAddAndChangeTask {
+
+    protected JFrame addTaskFrame = new JFrame();
+    protected JPanel addTaskPanel;
+    protected JLabel titleDateLabel = new JLabel("Enter title:");
+    protected JTextField titleDate = new JTextField();
+    protected JLabel startTimeDateLabel = new JLabel("Enter start date \"[yyyy-MM-dd HH:mm:ss.SSS]\":");
+    protected JLabel endTimeDateLabel = new JLabel("Enter end date \"[yyyy-MM-dd HH:mm:ss.SSS]\":");
+    protected JCheckBox repeatedCheck = new JCheckBox("Repeated");
+    protected JCheckBox activeCheck = new JCheckBox("Active");
 
     protected SpinnerDateModel modelStart = new SpinnerDateModel();
     protected SpinnerDateModel modelEnd = new SpinnerDateModel();
@@ -19,22 +30,20 @@ public abstract class ViewAddAndChangeTask {
             "yyyy-MM-dd HH:mm:ss.SSS");
     protected JSpinner.DateEditor timeEndEditor = new JSpinner.DateEditor(endTimeDate,
             "yyyy-MM-dd HH:mm:ss.SSS");
+
+    protected Calendar calendar = Calendar.getInstance();
     protected SpinnerDateModel modelInterval = new SpinnerDateModel();
     protected JSpinner interval = new JSpinner(modelInterval);
-    protected JSpinner.DateEditor timeIntervalEditor = new JSpinner.DateEditor(endTimeDate,
+    protected JSpinner.DateEditor timeIntervalEditor = new JSpinner.DateEditor(interval,
             "HH:mm:ss");
-    protected JFrame addTaskFrame = new JFrame();
-    protected JPanel addTaskPanel;
-    protected JLabel titleDateLabel = new JLabel("Enter title:");
-    protected JTextField titleDate = new JTextField();
-    protected JLabel startTimeDateLabel = new JLabel("Enter start date \"[yyyy-MM-dd HH:mm:ss.SSS]\":");
-    protected JLabel endTimeDateLabel = new JLabel("Enter end date \"[yyyy-MM-dd HH:mm:ss.SSS]\":");
-    protected JCheckBox repeatedCheck = new JCheckBox("Repeated");
-    protected JCheckBox activeCheck = new JCheckBox("Active");
+    protected DateFormatter dateFormatter = (DateFormatter) timeIntervalEditor.getTextField().getFormatter();
+
+    protected JTextField countOfDays = new JTextField();
+    protected JLabel countOfDaysLabel = new JLabel("days");
+
     protected JButton addTaskButton = new JButton("Add");
     protected JButton cancelTaskButton = new JButton("Cancel");
     protected JLabel intervalLabel = new JLabel("Enter interval:");
-    //protected JTextField interval = new JTextField();
     protected JFrame mainFrame;
 
     public void setMainFrame(JFrame mainFrame) {
@@ -63,9 +72,11 @@ public abstract class ViewAddAndChangeTask {
         if(endTimeDate.isEnabled()) {
             endTimeDate.setEnabled(false);
             interval.setEnabled(false);
+            countOfDays.setEnabled(false);
         } else {
             endTimeDate.setEnabled(true);
             interval.setEnabled(true);
+            countOfDays.setEnabled(true);
         }
     }
 
@@ -113,7 +124,8 @@ public abstract class ViewAddAndChangeTask {
      */
     public int getIntervalFromField() {
         Date inter = (Date) interval.getValue();
-        return (int) inter.getTime();
+        return Integer.parseInt(countOfDays.getText()) * 86400 +
+                inter.getHours() * 3600 + inter.getMinutes() * 60 + inter.getSeconds();
     }
 
     /**
@@ -135,10 +147,21 @@ public abstract class ViewAddAndChangeTask {
      */
     public void createFrame() {
         titleDate.setText("");
+        countOfDays.setText("0");
         startTimeDate.setEditor(timeStartEditor);
         endTimeDate.setEditor(timeEndEditor);
-        //interval.setEditor(timeIntervalEditor);
-        interval.setValue(new Date(0));
+        startTimeDate.setValue(new Date());
+        endTimeDate.setValue(new Date());
+
+        calendar.set(Calendar.HOUR_OF_DAY, 24);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        modelInterval.setValue(calendar.getTime());
+        dateFormatter.setAllowsInvalid(false);
+        dateFormatter.setOverwriteMode(true);
+        interval.setEditor(timeIntervalEditor);
+
+
         addTaskFrame = new JFrame("Task");
         addTaskFrame.setBounds(200, 200, 300, 320);
         addTaskFrame.setResizable(false);
@@ -161,10 +184,15 @@ public abstract class ViewAddAndChangeTask {
         addTaskPanel.add(endTimeDate);
         intervalLabel.setBounds(10, 150, 274, 20);
         addTaskPanel.add(intervalLabel);
-        interval.setBounds(9, 170, 274, 20);
+        countOfDays.setBounds(9,170,70,20);
+        addTaskPanel.add(countOfDays);
+        countOfDaysLabel.setBounds(84,170,44,20);
+        addTaskPanel.add(countOfDaysLabel);
+        interval.setBounds(123, 170, 160, 20);
         if (!repeatedCheck.isSelected()){
             endTimeDate.setEnabled(false);
             interval.setEnabled(false);
+            countOfDays.setEnabled(false);
         }
         addTaskPanel.add(interval);
         cancelTaskButton.setBounds(150,210,100,40);

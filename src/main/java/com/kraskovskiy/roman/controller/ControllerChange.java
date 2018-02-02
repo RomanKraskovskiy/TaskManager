@@ -66,6 +66,7 @@ public class ControllerChange extends ControllerAddAndChange {
         } catch (TaskException e) {
             view.showErrorMessage(e.getMessage());
             logger.info("USER: " + e + " | " + e.getMessage());
+            return;
         }
         task.setActive(viewAddAndChangeTask.isActiveFromField());
         task.setView(view);

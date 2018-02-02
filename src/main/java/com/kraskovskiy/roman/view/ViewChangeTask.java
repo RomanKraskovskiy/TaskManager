@@ -56,15 +56,19 @@ public class ViewChangeTask extends ViewAddAndChangeTask {
         if(task.isRepeated()) {
             endTimeDate.setEnabled(true);
             interval.setEnabled(true);
+            countOfDays.setEnabled(true);
             repeatedCheck.setSelected(true);
             endTimeDate.setValue(task.getEndTime());
-            interval.setValue(new Date(task.getRepeatInterval()));
+            interval.setValue(new Date(task.getRepeatInterval() * 1000 - 7200000));
+            countOfDays.setText(String.valueOf(task.getRepeatInterval()/86400));
         } else {
             endTimeDate.setEnabled(false);
             interval.setEnabled(false);
+            countOfDays.setEnabled(false);
             repeatedCheck.setSelected(false);
             endTimeDate.setValue(new Date());
-            interval.setValue(new Date(0));
+            interval.setValue(new Date(-7200000));
+            countOfDays.setText("0");
         }
     }
 }
