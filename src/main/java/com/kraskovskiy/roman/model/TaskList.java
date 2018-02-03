@@ -1,6 +1,5 @@
 package com.kraskovskiy.roman.model;
 
-import java.util.Date;
 import java.io.Serializable;
 
 /**

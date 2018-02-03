@@ -11,6 +11,10 @@ import java.util.Date;
 import java.util.Set;
 import java.util.SortedMap;
 
+/**
+ * abstract class view for add/change task or calendar
+ * @author Roman Kraskovskiy
+ */
 public abstract class ViewAddAndChangeTask {
 
     protected JFrame addTaskFrame = new JFrame();
@@ -46,6 +50,10 @@ public abstract class ViewAddAndChangeTask {
     protected JLabel intervalLabel = new JLabel("Enter interval:");
     protected JFrame mainFrame;
 
+    /**
+     * setter for main view frame (main menu)
+     * @param mainFrame main menu
+     */
     public void setMainFrame(JFrame mainFrame) {
         this.mainFrame = mainFrame;
     }
@@ -201,8 +209,15 @@ public abstract class ViewAddAndChangeTask {
         mainFrame.setEnabled(false);
     }
 
+    /**
+     * creating frame (abstract)
+     */
     public abstract void newFrame();
 
+    /**
+     * creating list for calendar
+     * @param sortedMap
+     */
     public void showFromToTasks(SortedMap<Date, Set<Task>> sortedMap) {
         /*
         for overriding

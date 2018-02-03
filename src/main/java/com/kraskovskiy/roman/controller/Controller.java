@@ -37,7 +37,12 @@ public class Controller {
 
     public final static Logger logger = Logger.getLogger(Controller.class);
 
-
+    /**
+     * constructor, adding listener mainView and setting tasks
+     * @throws CloneNotSupportedException
+     * @throws IOException
+     * @throws TaskException
+     */
     public Controller() throws CloneNotSupportedException, IOException, TaskException {
         try {
             TaskIO.readBinary(taskList, new File("tasks.txt"));

@@ -283,6 +283,7 @@ public class Task extends TimerTask implements Cloneable, Serializable {
      * @param interval for setting interval of task
      * repeat task
      * @throws TaskException if time is not right
+     * @throws CloneNotSupportedException
      */
     public void setTime(Date start, Date end, int interval) throws TaskException, CloneNotSupportedException {
         timeTest(start,end,interval);

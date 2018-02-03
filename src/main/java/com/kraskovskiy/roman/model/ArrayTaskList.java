@@ -95,7 +95,7 @@ public class ArrayTaskList extends TaskList {
 
     /**
      * method for display tasks in this list in readable format
-     * @return count of tasks
+     * @return all tasks in readable format
      */
     @Override
     public String toString() {

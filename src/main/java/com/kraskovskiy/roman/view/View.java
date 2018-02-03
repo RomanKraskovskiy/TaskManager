@@ -116,9 +116,14 @@ public class View extends JFrame {
         removeTaskButtonMenu.addActionListener(al);
     }
 
+    /**
+     * add listener for button for adding frame for calendar
+     * @param al
+     */
     public void addCalendarButtonListener(ActionListener al) {
         chooseButton.addActionListener(al);
     }
+
     /**
      * display all tasks on screen
      * @param tasks tasks

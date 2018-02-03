@@ -12,13 +12,27 @@ import java.awt.event.ActionListener;
 
 import static com.kraskovskiy.roman.controller.Controller.logger;
 
+/**
+ * controller for add task
+ * @author Roman Kraskovskiy
+ */
 public class ControllerAdd extends ControllerAddAndChange {
 
+    /**
+     * constructor
+     * @param view mainView
+     * @param viewAddAndChangeTask view for this controller
+     * @param mainController main controller
+     * @param taskList model of mvc
+     */
     public ControllerAdd(View view, ViewAddAndChangeTask viewAddAndChangeTask, Controller mainController,
                          TaskList taskList) {
         super(view, viewAddAndChangeTask, mainController, taskList);
     }
 
+    /**
+     * @return listener for button for adding task
+     */
     public AddTaskListener createAddTaskListener() {
         return new AddTaskListener();
     }

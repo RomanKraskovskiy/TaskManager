@@ -7,19 +7,33 @@ import com.kraskovskiy.roman.view.ViewAddAndChangeTask;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.SortedMap;
 
 import static com.kraskovskiy.roman.controller.Controller.logger;
 
+/**
+ * controller for add calendar
+ * @author Roman Kraskovskiy
+ */
 public class ControllerCalendar extends ControllerAddAndChange {
+
+    /**
+     * constructor
+     * @param view mainView
+     * @param viewAddAndChangeTask view for this controller
+     * @param mainController main controller
+     * @param taskList model of mvc
+     */
     public ControllerCalendar(View view, ViewAddAndChangeTask viewAddAndChangeTask, Controller mainController,
                               TaskList taskList) {
         super(view, viewAddAndChangeTask, mainController, taskList);
     }
 
+    /**
+     * @return listener for button for set calendar
+     */
     public SetCalendarListener creacteSetCalendarListener() {
         return new SetCalendarListener();
     }

@@ -168,7 +168,7 @@ public class LinkedTaskList extends TaskList {
 
     /**
      * method for display tasks in this list in readable format
-     * @return count of tasks
+     * @return all tasks in readable format
      */
     public String toString() {
         String s = "";

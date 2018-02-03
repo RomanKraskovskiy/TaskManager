@@ -12,12 +12,28 @@ import java.awt.event.ActionListener;
 
 import static com.kraskovskiy.roman.controller.Controller.logger;
 
+
+/**
+ * controller for change task
+ * @author Roman Kraskovskiy
+ */
 public class ControllerChange extends ControllerAddAndChange {
+
+    /**
+     * constructor
+     * @param view mainView
+     * @param viewAddAndChangeTask view for this controller
+     * @param mainController main controller
+     * @param taskList model of mvc
+     */
     public ControllerChange(View view, ViewAddAndChangeTask viewAddAndChangeTask, Controller mainController,
                             TaskList taskList) {
         super(view, viewAddAndChangeTask, mainController, taskList);
     }
 
+    /**
+     * @return listener for button for changing task
+     */
     public ChangeTask createChangeTask() {
         return new ChangeTask();
     }

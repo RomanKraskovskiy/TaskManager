@@ -2,7 +2,12 @@ package com.kraskovskiy.roman.view;
 
 import java.awt.event.ActionListener;
 
+/**
+ * view for add task
+ * @author Roman Kraskovskiy
+ */
 public class ViewAddTask extends ViewAddAndChangeTask {
+
     /**
      * create frame for adding task
      */

@@ -8,13 +8,23 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * view for change task
+ * @author Roman Kraskovskiy
+ */
 public class ViewChangeTask extends ViewAddAndChangeTask {
+
     private JButton removeTaskButton = new JButton("Remove");
     private JButton changeTaskButton = new JButton("Change");
 
     private TaskList taskList;
     private int index;
 
+    /**
+     * setting taskList and index of task for changing
+     * @param taskList
+     * @param index
+     */
     public void setTaskListandIndex(TaskList taskList,int index) {
         this.taskList = taskList;
         this.index = index;
@@ -35,6 +45,9 @@ public class ViewChangeTask extends ViewAddAndChangeTask {
         removeTaskButton.addActionListener(al);
     }
 
+    /**
+     * create frame for change task
+     */
     @Override
     public void newFrame() {
         createFrame();

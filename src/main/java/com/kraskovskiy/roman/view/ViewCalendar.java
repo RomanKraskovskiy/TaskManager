@@ -11,6 +11,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 
+/**
+ * view for add calendar
+ * @author Roman Kraskovskiy
+ */
 public class ViewCalendar extends ViewAddAndChangeTask {
 
     private JButton setCalendarButton = new JButton("Calendar");
