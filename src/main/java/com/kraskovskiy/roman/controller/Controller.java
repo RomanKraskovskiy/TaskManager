@@ -54,6 +54,7 @@ public class Controller {
         viewChangeTask.setMainFrame(view);
         viewCalendar.setMainFrame(view);
 
+        view.changeListMenuListener(new ChangeListMenuListener());
         view.addButtonListener(new SetTaskListener());
         view.addChangeAndViewListener(new ChangeTaskListener());
         view.addExitButtonListener(new ExitButtonListener());
@@ -88,6 +89,17 @@ public class Controller {
         view.showAllTask(taskList);
     }
 
+
+    /**
+     * change listMenu listener
+     */
+    class ChangeListMenuListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            view.showTask(taskList);
+        }
+    }
     /**
      * remove task button listener
      */
@@ -102,7 +114,11 @@ public class Controller {
                     closeFrame();
             }
             closeFrame();
-            view.showAllTask(taskList);
+            if (view.isActiveTasks()) {
+                view.showActiveTask(taskList);
+            } else {
+                view.showAllTask(taskList);
+            }
         }
     }
 
@@ -114,7 +130,7 @@ public class Controller {
         @Override
         public void valueChanged(ListSelectionEvent e) {
             JList source = (JList)e.getSource();
-            view.setCurrenTaskIndex(source.getSelectedIndex());
+            view.setCurrenTaskIndex(view.getAllTasks().indexOf(source.getSelectedValue()));
         }
     }
 

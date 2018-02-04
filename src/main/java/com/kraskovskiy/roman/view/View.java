@@ -19,8 +19,11 @@ import java.util.*;
  */
 public class View extends JFrame {
 
+    private JButton changeListMenu = new JButton("Active tasks");
+    private DefaultListModel curTasks = new DefaultListModel();
+
     private DefaultListModel allTasks = new DefaultListModel();
-    private JList taskList = new JList(allTasks);
+    private JList taskList = new JList(curTasks);
     private JButton chooseButton = new JButton("Calendar");
     private JButton addButton = new JButton("Add task");
     private JButton chooseTaskButton = new JButton("Choose and view task");
@@ -29,6 +32,21 @@ public class View extends JFrame {
     private JButton removeTaskButtonMenu = new JButton("Remove");
 
     private int currenTaskIndex;
+    private boolean activeTasks;
+
+    /**
+     * @return kind of menu list (active/all)
+     */
+    public boolean isActiveTasks() {
+        return activeTasks;
+    }
+
+    /**
+     * @return DefaultListModel allTasks for JList
+     */
+    public DefaultListModel getAllTasks() {
+        return allTasks;
+    }
 
     /**
      * @return index of selected in list task
@@ -56,9 +74,11 @@ public class View extends JFrame {
         this.setBounds(100,100,800,300);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
-        labelTasks.setBounds(13,17,100,20);
+        labelTasks.setBounds(13,17,200,20);
         labelTasks.setFont(new Font("",Font.BOLD,20));
         container.add(labelTasks);
+        changeListMenu.setBounds(300,17,109,20);
+        container.add(changeListMenu);
         JScrollPane jsp = new JScrollPane(taskList);
         jsp.setBounds(10,45,400,200);
         container.add(jsp);
@@ -74,6 +94,14 @@ public class View extends JFrame {
         container.add(exitButton);
         this.add(container);
         currenTaskIndex = -1;
+    }
+
+    /**
+     * add listener for change list active/all tasks
+     * @param al
+     */
+    public void changeListMenuListener(ActionListener al) {
+        changeListMenu.addActionListener(al);
     }
 
     /**
@@ -132,10 +160,47 @@ public class View extends JFrame {
         Iterator itr = tasks.iterator();
         int i = 0;
         allTasks.clear();
+        curTasks.clear();
         while(itr.hasNext()) {
             Task t = (Task) itr.next();
             allTasks.addElement((i + 1) + ") " + t.toString());
+            curTasks.addElement((i + 1) + ") " + t.toString());
             i++;
+        }
+    }
+
+    /**
+     * display active tasks on screen
+     * @param tasks tasks
+     */
+    public void showActiveTask(TaskList tasks) {
+        Iterator itr = tasks.iterator();
+        int i = 0;
+        curTasks.clear();
+        allTasks.clear();
+        while(itr.hasNext()) {
+            Task t = (Task) itr.next();
+            allTasks.addElement((i + 1) + ") " + t.toString());
+            if(t.isActive()) curTasks.addElement((i + 1) + ") " + t.toString());
+            i++;
+        }
+    }
+
+    /**
+     * display active or all tasks on screen
+     * @param tasks tasks
+     */
+    public void showTask(TaskList tasks) {
+        if(activeTasks){
+            showAllTask(tasks);
+            labelTasks.setText("All tasks:");
+            changeListMenu.setText("Active tasks");
+            activeTasks = false;
+        }else {
+            showActiveTask(tasks);
+            labelTasks.setText("Active tasks:");
+            changeListMenu.setText("All tasks");
+            activeTasks = true;
         }
     }
 
@@ -144,7 +209,7 @@ public class View extends JFrame {
      * @param s message
      */
     public void showErrorMessage(String s) {
-        JOptionPane.showConfirmDialog(/*getAddTaskFrame()*/this,s,
+        JOptionPane.showConfirmDialog(this,s,
                 "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
     }
 

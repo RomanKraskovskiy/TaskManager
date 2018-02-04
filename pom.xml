@@ -6,7 +6,7 @@
 
     <groupId>groupId</groupId>
     <artifactId>TaskManager</artifactId>
-    <version>1.0-console</version>
+    <version>1.0-swing</version>
 
     <build>
         <resources>

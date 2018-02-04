@@ -85,7 +85,11 @@ public class ControllerAdd extends ControllerAddAndChange {
         task.setActive(true);
         task.setView(view);
         taskList.add(task);
-        view.showAllTask(taskList);
+        if (view.isActiveTasks()) {
+            view.showActiveTask(taskList);
+        } else {
+            view.showAllTask(taskList);
+        }
         viewAddAndChangeTask.getAddTaskFrame().setVisible(false);
         viewAddAndChangeTask.getAddTaskFrame().dispose();
         view.setEnabled(true);
