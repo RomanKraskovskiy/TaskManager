@@ -15,7 +15,8 @@ public class Tasks {
      * @throws CloneNotSupportedException
      */
     public static Iterable incoming(Iterable tasks,Date from, Date to) throws CloneNotSupportedException {
-        Iterator itr = tasks.iterator();
+        TaskList taskList = (TaskList) tasks;
+        Iterator itr = taskList.clone().iterator();
         while(itr.hasNext()) {
             Task t = (Task)itr.next();
             if(t.nextTimeAfter(from) == null ||

@@ -112,6 +112,9 @@ public class Controller {
             } catch (ArrayIndexOutOfBoundsException e1) {
                     view.showErrorMessage("Please, choose task for first !");
                     closeFrame();
+            } catch (CloneNotSupportedException e1) {
+                view.showErrorMessage("");
+                logger.error(e1.getMessage(),e1);
             }
             closeFrame();
             if (view.isActiveTasks()) {
@@ -256,7 +259,8 @@ public class Controller {
      * remove choosed task
      * @param taskNumb index of task
      */
-    public void removeTask(int taskNumb) {
+    public void removeTask(int taskNumb) throws CloneNotSupportedException {
+        taskList.getTask(taskNumb).setActive(false);
         taskList.remove(taskList.getTask(taskNumb));
     }
 

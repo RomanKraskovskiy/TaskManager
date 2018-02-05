@@ -4,13 +4,9 @@ import com.kraskovskiy.roman.model.Task;
 import com.kraskovskiy.roman.model.TaskList;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
