@@ -7,7 +7,6 @@ import com.kraskovskiy.roman.view.ViewAddAndChangeTask;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.SortedMap;
 
@@ -45,7 +44,6 @@ public class ControllerCalendar extends ControllerAddAndChange {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            SimpleDateFormat sdf = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss.SSS]");
             try {
                 Date st = viewAddAndChangeTask.getStartDateFromField();
                 Date en = viewAddAndChangeTask.getEndDateFromField();
